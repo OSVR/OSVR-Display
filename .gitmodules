@@ -1,0 +1,6 @@
+[submodule "vendor/googletest"]
+	path = vendor/googletest
+	url = https://github.com/google/googletest.git
+[submodule "vendor/docopt.cpp"]
+	path = vendor/docopt.cpp
+	url = https://github.com/docopt/docopt.cpp.git
