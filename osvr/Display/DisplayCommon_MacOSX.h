@@ -28,8 +28,9 @@
 
 
 // Internal Includes
-#include "DisplayEnumerator.h"
-#include "Display.h"
+#include <osvr/Display/DisplayEnumerator.h>
+#include <osvr/Display/Display.h>
+#include <osvr/Display/Export.h>
 
 // Library/third-party includes
 #include <CoreGraphics/CoreGraphics.h>
@@ -47,21 +48,21 @@ namespace detail {
 // Forward declarations
 //
 
-io_service_t getIOServicePort(const CGDirectDisplayID& display_id);
-std::string to_string(CFStringRef str);
-std::string to_string(CFDataRef ref);
-uint32_t getNumDisplays();
-std::string getDisplayAdapterDescription(const CGDirectDisplayID& display_id);
-DisplayAdapter getDisplayAdapter(const CGDirectDisplayID& display_id);
-std::string getDisplayName(const CGDirectDisplayID& display_id);
-DisplaySize getDisplaySize(const CGDirectDisplayID& display_id);
-DisplayPosition getDisplayPosition(const CGDirectDisplayID& display_id);
-Rotation getDisplayRotation(const CGDirectDisplayID& display_id);
-double getDisplayRefreshRate(const CGDirectDisplayID& display_id);
-bool getDisplayAttachedToDesktop(const CGDirectDisplayID& display_id);
-uint32_t getDisplayEDIDVendorID(const CGDirectDisplayID& display_id);
-uint32_t getDisplayEDIDProductID(const CGDirectDisplayID& display_id);
-Display getDisplay(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT io_service_t getIOServicePort(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT std::string to_string(CFStringRef str);
+OSVR_DISPLAY_EXPORT std::string to_string(CFDataRef ref);
+OSVR_DISPLAY_EXPORT uint32_t getNumDisplays();
+OSVR_DISPLAY_EXPORT std::string getDisplayAdapterDescription(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT DisplayAdapter getDisplayAdapter(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT std::string getDisplayName(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT DisplaySize getDisplaySize(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT DisplayPosition getDisplayPosition(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT Rotation getDisplayRotation(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT double getDisplayRefreshRate(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT bool getDisplayAttachedToDesktop(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT uint32_t getDisplayEDIDVendorID(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT uint32_t getDisplayEDIDProductID(const CGDirectDisplayID& display_id);
+OSVR_DISPLAY_EXPORT Display getDisplay(const CGDirectDisplayID& display_id);
 
 //
 // Utility functions
@@ -69,7 +70,7 @@ Display getDisplay(const CGDirectDisplayID& display_id);
 
 namespace {
 
-void printDict(CFDictionaryRef dict)
+inline void printDict(CFDictionaryRef dict)
 {
     const auto size = CFDictionaryGetCount(dict);
     CFTypeRef* keys_ref = new CFTypeRef[size];
@@ -89,7 +90,7 @@ void printDict(CFDictionaryRef dict)
     std::cout << "\n" << std::endl;
 }
 
-std::string getString(const CFDictionaryRef& dict, const char* key, const std::string& default_value = "")
+inline std::string getString(const CFDictionaryRef& dict, const char* key, const std::string& default_value = "")
 {
     const auto key_str = CFStringCreateWithCString(nullptr, key, kCFStringEncodingMacRoman);
     CFStringRef str_ref;
@@ -109,7 +110,7 @@ std::string getString(const CFDictionaryRef& dict, const char* key, const std::s
 // Implementations
 //
 
-io_service_t getIOServicePort(const CGDirectDisplayID& display_id)
+inline io_service_t getIOServicePort(const CGDirectDisplayID& display_id)
 {
     io_service_t service_port = 0;
 
@@ -168,7 +169,7 @@ io_service_t getIOServicePort(const CGDirectDisplayID& display_id)
     return service_port;
 }
 
-std::string to_string(CFStringRef str)
+inline std::string to_string(CFStringRef str)
 {
     // Convert from CFStringRef to C-style string
     const auto size = CFStringGetMaximumSizeForEncoding(CFStringGetLength(str), kCFStringEncodingUTF8);
@@ -182,7 +183,7 @@ std::string to_string(CFStringRef str)
     return s;
 }
 
-std::string to_string(CFDataRef ref)
+inline std::string to_string(CFDataRef ref)
 {
     // Copy the bytes into a null-terminated buffer
     const auto size = CFDataGetLength(ref);
@@ -197,7 +198,7 @@ std::string to_string(CFDataRef ref)
     return s;
 }
 
-uint32_t getNumDisplays()
+inline uint32_t getNumDisplays()
 {
     uint32_t num_displays = 0;
     const auto ret = CGGetOnlineDisplayList(0, nullptr, &num_displays);
@@ -208,7 +209,7 @@ uint32_t getNumDisplays()
     return num_displays;
 }
 
-std::string getDisplayAdapterDescription(const CGDirectDisplayID& display_id)
+inline std::string getDisplayAdapterDescription(const CGDirectDisplayID& display_id)
 {
     std::string adapter_name = "FIXME: getDisplayAdapterDescription()";
 
@@ -223,7 +224,7 @@ std::string getDisplayAdapterDescription(const CGDirectDisplayID& display_id)
     return adapter_name;
 }
 
-DisplayAdapter getDisplayAdapter(const CGDirectDisplayID& display_id)
+inline DisplayAdapter getDisplayAdapter(const CGDirectDisplayID& display_id)
 {
     DisplayAdapter adapter;
     adapter.description = getDisplayAdapterDescription(display_id);
@@ -231,7 +232,7 @@ DisplayAdapter getDisplayAdapter(const CGDirectDisplayID& display_id)
     return adapter;
 }
 
-std::string getDisplayName(const CGDirectDisplayID& display_id)
+inline std::string getDisplayName(const CGDirectDisplayID& display_id)
 {
     std::string display_name = "[Unknown]";
 
@@ -252,7 +253,7 @@ std::string getDisplayName(const CGDirectDisplayID& display_id)
     return display_name;
 }
 
-DisplaySize getDisplaySize(const CGDirectDisplayID& display_id)
+inline DisplaySize getDisplaySize(const CGDirectDisplayID& display_id)
 {
     DisplaySize display_size;
 
@@ -262,7 +263,7 @@ DisplaySize getDisplaySize(const CGDirectDisplayID& display_id)
     return display_size;
 }
 
-DisplayPosition getDisplayPosition(const CGDirectDisplayID& display_id)
+inline DisplayPosition getDisplayPosition(const CGDirectDisplayID& display_id)
 {
     DisplayPosition display_position;
 
@@ -274,7 +275,7 @@ DisplayPosition getDisplayPosition(const CGDirectDisplayID& display_id)
     return display_position;
 }
 
-Rotation getDisplayRotation(const CGDirectDisplayID& display_id)
+inline Rotation getDisplayRotation(const CGDirectDisplayID& display_id)
 {
     const auto degrees = CGDisplayRotation(display_id);
 
@@ -292,7 +293,7 @@ Rotation getDisplayRotation(const CGDirectDisplayID& display_id)
     }
 }
 
-double getDisplayRefreshRate(const CGDirectDisplayID& display_id)
+inline double getDisplayRefreshRate(const CGDirectDisplayID& display_id)
 {
     auto display_mode_ref = CGDisplayCopyDisplayMode(display_id);
     if (!display_mode_ref) {
@@ -304,22 +305,22 @@ double getDisplayRefreshRate(const CGDirectDisplayID& display_id)
     return refresh_rate;
 }
 
-bool getDisplayAttachedToDesktop(const CGDirectDisplayID& display_id)
+inline bool getDisplayAttachedToDesktop(const CGDirectDisplayID& display_id)
 {
     return true;
 }
 
-uint32_t getDisplayEDIDVendorID(const CGDirectDisplayID& display_id)
+inline uint32_t getDisplayEDIDVendorID(const CGDirectDisplayID& display_id)
 {
     return CGDisplayVendorNumber(display_id);
 }
 
-uint32_t getDisplayEDIDProductID(const CGDirectDisplayID& display_id)
+inline uint32_t getDisplayEDIDProductID(const CGDirectDisplayID& display_id)
 {
     return CGDisplayModelNumber(display_id);
 }
 
-Display getDisplay(const CGDirectDisplayID& display_id)
+inline Display getDisplay(const CGDirectDisplayID& display_id)
 {
     Display display;
     display.adapter = getDisplayAdapter(display_id);

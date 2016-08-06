@@ -33,10 +33,10 @@
 
 #include "Display.h"
 #include "DisplayEnumerator.h"
-#include "DisplayUtils_MacOSX.h"
+#include "DisplayCommon_MacOSX.h"
 
 // Library/third-party includes
-#include <Windows.h>
+// - none
 
 // Standard includes
 // - none
@@ -46,6 +46,7 @@ namespace display {
 
 bool setDesktopOrientation(const Display& display, DesktopOrientation orientation)
 {
+    // TODO
     return false;
 }
 

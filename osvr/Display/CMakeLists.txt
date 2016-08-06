@@ -22,6 +22,7 @@ endif()
 
 set(_osvrDisplay_src
 	Display.h
+	Display.cpp
 	DisplayCommon_MacOSX.h
 	DisplayCommon_Windows.h
 	DisplayConfiguration.cpp

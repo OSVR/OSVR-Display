@@ -44,52 +44,23 @@ struct DisplaySize {
     uint32_t width;
     uint32_t height;
 
-    OSVR_DISPLAY_EXPORT bool operator==(const DisplaySize& other) const
-    {
-        if (width != other.width) return false;
-        if (height != other.height) return false;
-
-        return true;
-    }
-
-    OSVR_DISPLAY_EXPORT bool operator!=(const DisplaySize& other) const
-    {
-        return !(*this == other);
-    }
+    OSVR_DISPLAY_EXPORT bool operator==(const DisplaySize& other) const;
+    OSVR_DISPLAY_EXPORT bool operator!=(const DisplaySize& other) const;
 };
 
 struct DisplayPosition {
     int32_t x;
     int32_t y;
 
-    OSVR_DISPLAY_EXPORT bool operator==(const DisplayPosition& other) const
-    {
-        if (x != other.x) return false;
-        if (y != other.y) return false;
-
-        return true;
-    }
-
-    OSVR_DISPLAY_EXPORT bool operator!=(const DisplayPosition& other) const
-    {
-        return !(*this == other);
-    }
+    OSVR_DISPLAY_EXPORT bool operator==(const DisplayPosition& other) const;
+    OSVR_DISPLAY_EXPORT bool operator!=(const DisplayPosition& other) const;
 };
 
 struct DisplayAdapter {
     std::string description;
 
-    OSVR_DISPLAY_EXPORT bool operator==(const DisplayAdapter& other) const
-    {
-        if (description != other.description) return false;
-
-        return true;
-    }
-
-    OSVR_DISPLAY_EXPORT bool operator!=(const DisplayAdapter& other) const
-    {
-        return !(*this == other);
-    }
+    OSVR_DISPLAY_EXPORT bool operator==(const DisplayAdapter& other) const;
+    OSVR_DISPLAY_EXPORT bool operator!=(const DisplayAdapter& other) const;
 };
 
 enum class Rotation {
@@ -113,45 +84,19 @@ enum class DesktopOrientation {
 /**
  * Calculate the rotation needed to from lhs to rhs.
  */
-OSVR_DISPLAY_EXPORT inline Rotation operator-(const DesktopOrientation lhs, const DesktopOrientation rhs)
-{
-    const auto difference = (4 + static_cast<int>(lhs) - static_cast<int>(rhs)) % 4;
-    switch (difference) {
-    case 0:
-        return Rotation::Zero;
-    case 1:
-        return Rotation::Ninety;
-    case 2:
-        return Rotation::OneEighty;
-    case 3:
-        return Rotation::TwoSeventy;
-    default:
-        // ERROR! Shouldn't get here. Check to see if the Rotation or
-        // DesktopOrientation enums have changed.
-        return Rotation::Zero;
-    }
-}
+OSVR_DISPLAY_EXPORT Rotation operator-(const DesktopOrientation lhs, const DesktopOrientation rhs);
 
 /**
  * Calculate the new DesktopOrientation after a Rotation has been applied to it.
  */
-OSVR_DISPLAY_EXPORT inline DesktopOrientation operator+(DesktopOrientation orientation, Rotation rotation)
-{
-    return static_cast<DesktopOrientation>((static_cast<int>(orientation) + static_cast<int>(rotation)) % 4);
-}
+OSVR_DISPLAY_EXPORT DesktopOrientation operator+(DesktopOrientation orientation, Rotation rotation);
 
-OSVR_DISPLAY_EXPORT inline DesktopOrientation operator+(Rotation rotation, DesktopOrientation orientation)
-{
-    return orientation + rotation;
-}
+OSVR_DISPLAY_EXPORT DesktopOrientation operator+(Rotation rotation, DesktopOrientation orientation);
 
 /**
  * Calculate the new DesktopOrientation after a reverse Rotation has been applied to it.
  */
-OSVR_DISPLAY_EXPORT inline DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation)
-{
-    return static_cast<DesktopOrientation>((static_cast<int>(orientation) - static_cast<int>(rotation) + 4) % 4);
-}
+OSVR_DISPLAY_EXPORT DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation);
 //@}
 
 
@@ -166,58 +111,12 @@ struct Display {
     uint32_t edidVendorId;
     uint32_t edidProductId;
 
-    OSVR_DISPLAY_EXPORT bool operator==(const Display& other) const
-    {
-        if (adapter != other.adapter) return false;
-        if (name != other.name) return false;
-        if (size != other.size) return false;
-        if (position != other.position) return false;
-        if (rotation != other.rotation) return false;
-        if (verticalRefreshRate != other.verticalRefreshRate) return false;
-        if (attachedToDesktop != other.attachedToDesktop) return false;
-        if (edidProductId != other.edidProductId) return false;
-        if (edidVendorId != other.edidVendorId) return false;
-
-        return true;
-    }
-
-    OSVR_DISPLAY_EXPORT bool operator!=(const Display& other) const
-    {
-        return !(*this == other);
-    }
+    OSVR_DISPLAY_EXPORT bool operator==(const Display& other) const;
+    OSVR_DISPLAY_EXPORT bool operator!=(const Display& other) const;
 };
 
-OSVR_DISPLAY_EXPORT inline std::string to_string(const Rotation rotation)
-{
-    switch (rotation) {
-    case osvr::display::Rotation::Zero:
-        return "0 degrees counter-clockwise";
-    case osvr::display::Rotation::Ninety:
-        return "90 degrees counter-clockwise";
-    case osvr::display::Rotation::OneEighty:
-        return "180 degrees counter-clockwise";
-    case osvr::display::Rotation::TwoSeventy:
-        return "270 degrees counter-clockwise";
-    default:
-        return "Unknown rotation: " + std::to_string(static_cast<int>(rotation));
-    }
-}
-
-OSVR_DISPLAY_EXPORT inline std::string to_string(const DesktopOrientation orientation)
-{
-    switch (orientation) {
-    case osvr::display::DesktopOrientation::Landscape:
-        return "Landscape";
-    case osvr::display::DesktopOrientation::Portrait:
-        return "Portrait";
-    case osvr::display::DesktopOrientation::LandscapeFlipped:
-        return "Landscape (flipped)";
-    case osvr::display::DesktopOrientation::PortraitFlipped:
-        return "Portrait (flipped)";
-    default:
-        return "Unknown orientation: " + std::to_string(static_cast<int>(orientation));
-    }
-}
+OSVR_DISPLAY_EXPORT std::string to_string(const Rotation rotation);
+OSVR_DISPLAY_EXPORT std::string to_string(const DesktopOrientation orientation);
 
 } // end namespace display
 } // end namespace osvr
