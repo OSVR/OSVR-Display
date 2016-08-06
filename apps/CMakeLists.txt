@@ -9,7 +9,7 @@ add_executable(osvr_display osvr_display.cpp)
 
 target_link_libraries(osvr_display
 	PRIVATE
-	osvrDisplay
+	osvrDisplay_static
 	docopt_s)
 
 target_include_directories(osvr_display

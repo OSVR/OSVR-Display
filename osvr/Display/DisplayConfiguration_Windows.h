@@ -32,7 +32,7 @@
 
 #include "DisplayEnumerator.h"
 #include "Display.h"
-#include "DisplayUtils_Windows.h"
+#include "DisplayCommon_Windows.h"
 
 // Library/third-party includes
 #include <Windows.h>
@@ -45,6 +45,8 @@
 #include <codecvt>
 #include <locale>
 #include <cmath>
+#include <tuple>
+#include <array>
 
 namespace osvr {
 namespace display {
@@ -54,7 +56,7 @@ namespace display {
  */
 Rotation calculateRotation(const Display& display, DesktopOrientation desired_orientation)
 {
-    const auto current_orientation = getOrientation(display);
+    const auto current_orientation = getDesktopOrientation(display);
 
     // Determine the rotation necessary to go from the current orientation to
     // the desired orientation.
@@ -64,37 +66,28 @@ Rotation calculateRotation(const Display& display, DesktopOrientation desired_or
     if (current_orientation == desired_orientation)
         return display.rotation;
 
-    return current_rotation - desired_rotation;
+    return current_orientation - desired_orientation;
 }
 
-void setDesktopOrientation(const Display& display, DesktopOrientation orientation)
+bool setDesktopOrientation(const Display& display, DesktopOrientation orientation)
 {
     PathInfoList path_info;
     ModeInfoList mode_info;
     std::tie(path_info, mode_info) = detail::getDisplayInformation();
 
-    for (const auto& path : path_info) {
-        try {
-            const auto display = detail::getDisplay(path, mode_info);
-            displays.emplace_back(std::move(display));
-        } catch (const std::exception& e) {
-            std::cout << "Caught exception: " << e.what() << ".";
-            std::cout << "Ignoring this display." << std::endl;
-        }
-    }
-
-    const auto path_info_iter = find(path_info, mode_info, display);
+    const auto path_info_iter = detail::find(path_info, mode_info, display);
     if (path_info_iter == path_info.end()) {
         std::cerr << "Failed to find specified display." << std::endl;
         return false;
     }
 
-    const auto current_orientation = getOrientation(display);
+    const auto current_orientation = getDesktopOrientation(display);
     const auto rotation = current_orientation - orientation;
 
-    path_info_iter->targetInfo.rotation = rotation;
-    SetDisplayConfig(path_info.size(), &path_info,
-                     mode_info.size(), &mode_info,
+    auto path_info_array = std::array<DISPLAYCONFIG_PATH_INFO, 1> {*path_info_iter};
+    path_info_array[0].targetInfo.rotation = detail::rotation_cast(rotation);
+    SetDisplayConfig(path_info_array.size(), path_info_array.data(),
+                     0, nullptr,
                      SDC_APPLY | SDC_USE_SUPPLIED_DISPLAY_CONFIG);
 }
 

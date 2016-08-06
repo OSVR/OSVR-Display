@@ -28,8 +28,10 @@
 
 
 // Internal Includes
-#include "DisplayEnumerator.h"
-#include "Display.h"
+#include <osvr/Display/DisplayEnumerator.h>
+
+#include <osvr/Display/Display.h>
+#include <osvr/Display/Export.h>
 
 // Library/third-party includes
 #include <Windows.h>
@@ -52,22 +54,22 @@ using ModeInfoList = std::vector<DISPLAYCONFIG_MODE_INFO>;
 namespace detail {
 
 // Forward declarations
-std::pair<UINT32, UINT32> getBufferSizes(const UINT32 query_flags);
-std::pair<PathInfoList, ModeInfoList> getDisplayInformation();
-Display getDisplay(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info);
-DisplayAdapter getDisplayAdapter(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info);
-std::string getAdapterName(const DISPLAYCONFIG_PATH_INFO& path_info);
-std::string to_string(const std::wstring& s);
-std::string getMonitorName(const DISPLAYCONFIG_PATH_INFO& path_info);
-DisplaySize getCurrentResolution(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info);
-DisplayPosition getPosition(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info);
-Rotation getRotation(const DISPLAYCONFIG_PATH_INFO& path_info);
-double getRefreshRate(const DISPLAYCONFIG_PATH_INFO& path_info);
-std::pair<uint32_t, uint32_t> getEDIDInfo(const DISPLAYCONFIG_PATH_INFO& path_info);
-void checkResult(const std::string& function_name, LONG result);
-PathInfoList::iterator find(PathInfoList& path_info, const ModeInfoList& mode_info, const Display& display);
+OSVR_DISPLAY_EXPORT std::pair<UINT32, UINT32> getBufferSizes(const UINT32 query_flags);
+OSVR_DISPLAY_EXPORT std::pair<PathInfoList, ModeInfoList> getDisplayInformation();
+OSVR_DISPLAY_EXPORT Display getDisplay(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info);
+OSVR_DISPLAY_EXPORT DisplayAdapter getDisplayAdapter(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info);
+OSVR_DISPLAY_EXPORT std::string getAdapterName(const DISPLAYCONFIG_PATH_INFO& path_info);
+OSVR_DISPLAY_EXPORT std::string to_string(const std::wstring& s);
+OSVR_DISPLAY_EXPORT std::string getMonitorName(const DISPLAYCONFIG_PATH_INFO& path_info);
+OSVR_DISPLAY_EXPORT DisplaySize getCurrentResolution(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info);
+OSVR_DISPLAY_EXPORT DisplayPosition getPosition(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info);
+OSVR_DISPLAY_EXPORT Rotation getRotation(const DISPLAYCONFIG_PATH_INFO& path_info);
+OSVR_DISPLAY_EXPORT double getRefreshRate(const DISPLAYCONFIG_PATH_INFO& path_info);
+OSVR_DISPLAY_EXPORT std::pair<uint32_t, uint32_t> getEDIDInfo(const DISPLAYCONFIG_PATH_INFO& path_info);
+OSVR_DISPLAY_EXPORT void checkResult(const std::string& function_name, LONG result);
+OSVR_DISPLAY_EXPORT PathInfoList::iterator find(PathInfoList& path_info, const ModeInfoList& mode_info, const Display& display);
 
-std::pair<UINT32, UINT32> getBufferSizes(const UINT32 query_flags)
+inline std::pair<UINT32, UINT32> getBufferSizes(const UINT32 query_flags)
 {
     // Get the sizes of the path and mode buffers
     UINT32 num_path = 0;
@@ -106,7 +108,7 @@ std::pair<UINT32, UINT32> getBufferSizes(const UINT32 query_flags)
 }
 
 
-std::pair<PathInfoList, ModeInfoList> getDisplayInformation()
+inline std::pair<PathInfoList, ModeInfoList> getDisplayInformation()
 {
     const UINT32 query_flags = QDC_ONLY_ACTIVE_PATHS;
     auto buffer_sizes = getBufferSizes(query_flags);
@@ -159,7 +161,7 @@ std::pair<PathInfoList, ModeInfoList> getDisplayInformation()
     return {std::move(path_info), std::move(mode_info)};
 }
 
-Display getDisplay(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info)
+inline Display getDisplay(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info)
 {
     Display display;
     display.adapter = getDisplayAdapter(path_info, mode_info);
@@ -176,7 +178,7 @@ Display getDisplay(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList&
     return display;
 }
 
-std::pair<uint32_t, uint32_t> getEDIDInfo(const DISPLAYCONFIG_PATH_INFO& path_info)
+inline std::pair<uint32_t, uint32_t> getEDIDInfo(const DISPLAYCONFIG_PATH_INFO& path_info)
 {
     DISPLAYCONFIG_TARGET_DEVICE_NAME target_name = {};
     target_name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME;
@@ -193,7 +195,7 @@ std::pair<uint32_t, uint32_t> getEDIDInfo(const DISPLAYCONFIG_PATH_INFO& path_in
     }
 }
 
-double getRefreshRate(const DISPLAYCONFIG_PATH_INFO& path_info)
+inline double getRefreshRate(const DISPLAYCONFIG_PATH_INFO& path_info)
 {
     const auto rational = path_info.targetInfo.refreshRate;
     const auto numerator = static_cast<double>(rational.Numerator);
@@ -202,7 +204,7 @@ double getRefreshRate(const DISPLAYCONFIG_PATH_INFO& path_info)
     return refresh_rate;
 }
 
-Rotation getRotation(const DISPLAYCONFIG_PATH_INFO& path_info)
+inline Rotation getRotation(const DISPLAYCONFIG_PATH_INFO& path_info)
 {
     switch (path_info.targetInfo.rotation) {
     case DISPLAYCONFIG_ROTATION_IDENTITY:
@@ -218,7 +220,7 @@ Rotation getRotation(const DISPLAYCONFIG_PATH_INFO& path_info)
     }
 }
 
-DisplaySize getCurrentResolution(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info)
+inline DisplaySize getCurrentResolution(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info)
 {
     const auto source_info = path_info.sourceInfo;
     if (DISPLAYCONFIG_PATH_MODE_IDX_INVALID != source_info.modeInfoIdx) {
@@ -230,7 +232,7 @@ DisplaySize getCurrentResolution(const DISPLAYCONFIG_PATH_INFO& path_info, const
     return {0, 0};
 }
 
-DisplayPosition getPosition(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info)
+inline DisplayPosition getPosition(const DISPLAYCONFIG_PATH_INFO& path_info, const std::vector<DISPLAYCONFIG_MODE_INFO>& mode_info)
 {
     const auto source_info = path_info.sourceInfo;
     if (DISPLAYCONFIG_PATH_MODE_IDX_INVALID != source_info.modeInfoIdx) {
@@ -242,7 +244,7 @@ DisplayPosition getPosition(const DISPLAYCONFIG_PATH_INFO& path_info, const std:
     return {0, 0};
 }
 
-std::string getMonitorName(const DISPLAYCONFIG_PATH_INFO& path_info)
+inline std::string getMonitorName(const DISPLAYCONFIG_PATH_INFO& path_info)
 {
     DISPLAYCONFIG_TARGET_DEVICE_NAME target_name = {};
     target_name.header.type = DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME;
@@ -259,7 +261,7 @@ std::string getMonitorName(const DISPLAYCONFIG_PATH_INFO& path_info)
     }
 }
 
-void checkResult(const std::string& function_name, LONG result)
+inline void checkResult(const std::string& function_name, LONG result)
 {
     switch (result) {
     case ERROR_SUCCESS:
@@ -281,7 +283,7 @@ void checkResult(const std::string& function_name, LONG result)
     }
 }
 
-DisplayAdapter getDisplayAdapter(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info)
+inline DisplayAdapter getDisplayAdapter(const DISPLAYCONFIG_PATH_INFO& path_info, const ModeInfoList& mode_info)
 {
     DisplayAdapter adapter;
     adapter.description = getAdapterName(path_info);
@@ -289,7 +291,7 @@ DisplayAdapter getDisplayAdapter(const DISPLAYCONFIG_PATH_INFO& path_info, const
     return adapter;
 }
 
-std::string getAdapterName(const DISPLAYCONFIG_PATH_INFO& path_info)
+inline std::string getAdapterName(const DISPLAYCONFIG_PATH_INFO& path_info)
 {
     auto source_info = path_info.sourceInfo;
     auto adapter_id = source_info.adapterId;
@@ -304,7 +306,7 @@ std::string getAdapterName(const DISPLAYCONFIG_PATH_INFO& path_info)
     return to_string(adapter_name.adapterDevicePath);
 }
 
-std::string to_string(const std::wstring& s)
+inline std::string to_string(const std::wstring& s)
 {
     std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t> converter;
     return converter.to_bytes(s);
@@ -315,7 +317,7 @@ std::string to_string(const std::wstring& s)
  * it, returns an iterator pointing to that display in the list. If it fails, it
  * returns the past-the-end iterator (@c end()).
  */
-PathInfoList::iterator find(PathInfoList& path_info, const ModeInfoList& mode_info, const Display& display)
+inline PathInfoList::iterator find(PathInfoList& path_info, const ModeInfoList& mode_info, const Display& display)
 {
     for (auto iter = begin(path_info); iter != end(path_info); ++iter) {
         const auto test_display = detail::getDisplay(*iter, mode_info);
@@ -326,6 +328,36 @@ PathInfoList::iterator find(PathInfoList& path_info, const ModeInfoList& mode_in
 
     return end(path_info);
 }
+
+inline DISPLAYCONFIG_ROTATION rotation_cast(const Rotation& r)
+{
+    switch (r) {
+    case Rotation::Zero:
+        return DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_IDENTITY;
+    case Rotation::Ninety:
+        return DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_ROTATE90;
+    case Rotation::OneEighty:
+        return DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_ROTATE180;
+    case Rotation::TwoSeventy:
+        return DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_ROTATE270;
+    }
+}
+
+inline Rotation rotation_cast(const DISPLAYCONFIG_ROTATION& r)
+{
+    switch (r) {
+    case DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_IDENTITY:
+        return Rotation::Zero;
+    case DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_ROTATE90:
+        return Rotation::Ninety;
+    case DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_ROTATE180:
+        return Rotation::OneEighty;
+    case DISPLAYCONFIG_ROTATION::DISPLAYCONFIG_ROTATION_ROTATE270:
+        return Rotation::TwoSeventy;
+    }
+}
+
+
 
 } // end namespace detail
 

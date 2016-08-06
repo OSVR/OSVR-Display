@@ -27,7 +27,9 @@
 #define INCLUDED_DisplayConfiguration_h_GUID_960CC7C4_FE0B_4CFF_9AEE_F5F11557A2C6
 
 // Internal Includes
-#include "Display.h"
+#include <osvr/Display/Display.h>
+
+#include <osvr/Display/Export.h>
 
 // Library/third-party includes
 // - none
@@ -38,7 +40,7 @@
 namespace osvr {
 namespace display {
 
-void setDesktopOrientation(const Display& display, DesktopOrientation orientation);
+OSVR_DISPLAY_EXPORT bool setDesktopOrientation(const Display& display, DesktopOrientation orientation);
 
 } // end namespace display
 } // end namespace osvr

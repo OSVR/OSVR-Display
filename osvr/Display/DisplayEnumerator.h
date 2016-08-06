@@ -27,7 +27,8 @@
 #define INCLUDED_DisplayEnumerator_h_GUID_E95B1B82_D611_46E2_BCE0_90533A485C14
 
 // Internal Includes
-#include "Display.h"
+#include <osvr/Display/Display.h>
+#include <osvr/Display/Export.h>
 
 // Library/third-party includes
 // - none
@@ -38,9 +39,9 @@
 namespace osvr {
 namespace display {
 
-std::vector<Display> getDisplays();
+OSVR_DISPLAY_EXPORT std::vector<Display> getDisplays();
 
-DesktopOrientation getDesktopOrientation(const Display& display);
+OSVR_DISPLAY_EXPORT DesktopOrientation getDesktopOrientation(const Display& display);
 
 } // end namespace display
 } // end namespace osvr

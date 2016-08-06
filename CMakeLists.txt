@@ -19,6 +19,7 @@ globally_enable_extra_compiler_warnings()
 #
 # Options
 #
+option(BUILD_APPS "Build applications that use osvrDisplay." ON)
 option(BUILD_TESTS "Build test programs and unit tests." ON)
 
 #
@@ -26,8 +27,9 @@ option(BUILD_TESTS "Build test programs and unit tests." ON)
 #
 find_package(osvr REQUIRED)
 
-# For our generated file
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 #
 # Third-party libraries
@@ -43,7 +45,10 @@ include(GNUInstallDirs)
 
 
 add_subdirectory(osvr/Display)
-add_subdirectory(apps)
+
+if(BUILD_APPS)
+	add_subdirectory(apps)
+endif()
 
 if(BUILD_TESTS)
 	add_subdirectory(test)

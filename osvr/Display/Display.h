@@ -27,7 +27,7 @@
 #define INCLUDED_Display_h_GUID_ED98FB68_A0E9_480B_9CF0_8C6D444DEB7E
 
 // Internal Includes
-// - none
+#include <osvr/Display/Export.h>
 
 // Library/third-party includes
 // - none
@@ -44,7 +44,7 @@ struct DisplaySize {
     uint32_t width;
     uint32_t height;
 
-    bool operator==(const DisplaySize& other) const
+    OSVR_DISPLAY_EXPORT bool operator==(const DisplaySize& other) const
     {
         if (width != other.width) return false;
         if (height != other.height) return false;
@@ -52,7 +52,7 @@ struct DisplaySize {
         return true;
     }
 
-    bool operator!=(const DisplaySize& other) const
+    OSVR_DISPLAY_EXPORT bool operator!=(const DisplaySize& other) const
     {
         return !(*this == other);
     }
@@ -62,7 +62,7 @@ struct DisplayPosition {
     int32_t x;
     int32_t y;
 
-    bool operator==(const DisplayPosition& other) const
+    OSVR_DISPLAY_EXPORT bool operator==(const DisplayPosition& other) const
     {
         if (x != other.x) return false;
         if (y != other.y) return false;
@@ -70,7 +70,7 @@ struct DisplayPosition {
         return true;
     }
 
-    bool operator!=(const DisplayPosition& other) const
+    OSVR_DISPLAY_EXPORT bool operator!=(const DisplayPosition& other) const
     {
         return !(*this == other);
     }
@@ -79,14 +79,14 @@ struct DisplayPosition {
 struct DisplayAdapter {
     std::string description;
 
-    bool operator==(const DisplayAdapter& other) const
+    OSVR_DISPLAY_EXPORT bool operator==(const DisplayAdapter& other) const
     {
         if (description != other.description) return false;
 
         return true;
     }
 
-    bool operator!=(const DisplayAdapter& other) const
+    OSVR_DISPLAY_EXPORT bool operator!=(const DisplayAdapter& other) const
     {
         return !(*this == other);
     }
@@ -113,7 +113,7 @@ enum class DesktopOrientation {
 /**
  * Calculate the rotation needed to from lhs to rhs.
  */
-inline Rotation operator-(const DesktopOrientation lhs, const DesktopOrientation rhs)
+OSVR_DISPLAY_EXPORT inline Rotation operator-(const DesktopOrientation lhs, const DesktopOrientation rhs)
 {
     const auto difference = (4 + static_cast<int>(lhs) - static_cast<int>(rhs)) % 4;
     switch (difference) {
@@ -135,12 +135,12 @@ inline Rotation operator-(const DesktopOrientation lhs, const DesktopOrientation
 /**
  * Calculate the new DesktopOrientation after a Rotation has been applied to it.
  */
-inline DesktopOrientation operator+(DesktopOrientation orientation, Rotation rotation)
+OSVR_DISPLAY_EXPORT inline DesktopOrientation operator+(DesktopOrientation orientation, Rotation rotation)
 {
     return static_cast<DesktopOrientation>((static_cast<int>(orientation) + static_cast<int>(rotation)) % 4);
 }
 
-inline DesktopOrientation operator+(Rotation rotation, DesktopOrientation orientation)
+OSVR_DISPLAY_EXPORT inline DesktopOrientation operator+(Rotation rotation, DesktopOrientation orientation)
 {
     return orientation + rotation;
 }
@@ -148,7 +148,7 @@ inline DesktopOrientation operator+(Rotation rotation, DesktopOrientation orient
 /**
  * Calculate the new DesktopOrientation after a reverse Rotation has been applied to it.
  */
-inline DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation)
+OSVR_DISPLAY_EXPORT inline DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation)
 {
     return static_cast<DesktopOrientation>((static_cast<int>(orientation) - static_cast<int>(rotation) + 4) % 4);
 }
@@ -166,7 +166,7 @@ struct Display {
     uint32_t edidVendorId;
     uint32_t edidProductId;
 
-    bool operator==(const Display& other) const
+    OSVR_DISPLAY_EXPORT bool operator==(const Display& other) const
     {
         if (adapter != other.adapter) return false;
         if (name != other.name) return false;
@@ -181,13 +181,13 @@ struct Display {
         return true;
     }
 
-    bool operator!=(const Display& other) const
+    OSVR_DISPLAY_EXPORT bool operator!=(const Display& other) const
     {
         return !(*this == other);
     }
 };
 
-inline std::string to_string(const Rotation rotation)
+OSVR_DISPLAY_EXPORT inline std::string to_string(const Rotation rotation)
 {
     switch (rotation) {
     case osvr::display::Rotation::Zero:
@@ -203,7 +203,7 @@ inline std::string to_string(const Rotation rotation)
     }
 }
 
-inline std::string to_string(const DesktopOrientation orientation)
+OSVR_DISPLAY_EXPORT inline std::string to_string(const DesktopOrientation orientation)
 {
     switch (orientation) {
     case osvr::display::DesktopOrientation::Landscape:
