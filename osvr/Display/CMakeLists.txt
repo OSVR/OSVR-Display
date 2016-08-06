@@ -11,7 +11,7 @@ set(OSVR_DISPLAY_SOURCES
 	DisplayEnumerator_Windows.h
 )
 
-add_library(osvrDisplay STATIC ${OSVR_DISPLAY_SOURCES})
+add_library(osvrDisplay SHARED ${OSVR_DISPLAY_SOURCES})
 target_link_libraries(osvrDisplay PRIVATE osvr::osvrUtil)
 
 if(APPLE)

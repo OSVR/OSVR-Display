@@ -43,6 +43,7 @@
 #include <codecvt>
 #include <locale>
 #include <cmath>
+#include <tuple>
 
 namespace osvr {
 namespace display {

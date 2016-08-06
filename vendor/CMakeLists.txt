@@ -9,7 +9,5 @@ if(BUILD_TESTS)
 endif()
 
 # docopt.cpp
-set(WITH_TESTS ON)
 add_subdirectory(docopt.cpp)
-unset(WITH_TESTS)
 
