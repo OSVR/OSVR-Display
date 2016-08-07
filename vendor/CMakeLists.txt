@@ -1,6 +1,6 @@
 
 # Google test
-if(BUILD_TESTS)
+if(BUILD_TESTS AND NOT TARGET gmock)
 	if(WIN32)
 		set(gtest_force_shared_crt ON)
 	endif()
