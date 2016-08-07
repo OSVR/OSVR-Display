@@ -24,8 +24,8 @@
 // limitations under the License.
 
 // Internal Includes
-#include "Display.h"
-#include "DisplayIO.h"
+#include <osvr/Display/Display.h>
+#include <osvr/Display/DisplayIO.h>
 
 // Library/third-party includes
 #include <gtest/gtest.h>
