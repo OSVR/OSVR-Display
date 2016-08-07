@@ -3,15 +3,20 @@
 #
 
 environment:
+  SDK_URL_PREFIX: "http://access.osvr.com/binary/download/builds/OSVR-Installer-Win-DEV/OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-"
   matrix:
     - GENERATOR: "Visual Studio 12 2013"
       CONFIG: Release
+      SDK_URL_SUFFIX: "32bit.msi"
     - GENERATOR: "Visual Studio 12 2013 Win64"
       CONFIG: Release
+      SDK_URL_SUFFIX: "64bit.msi"
     - GENERATOR: "Visual Studio 14 2015"
       CONFIG: Release
+      SDK_URL_SUFFIX: "32bit.msi"
     - GENERATOR: "Visual Studio 14 2015 Win64"
       CONFIG: Release
+      SDK_URL_SUFFIX: "64bit.msi"
 
 # Enable RDP access
 init:
@@ -19,8 +24,9 @@ init:
 
 
 install:
-  - ps: Start-FileDownload 'http://access.osvr.com/binary/download/builds/OSVR-Installer-Win-DEV/OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-64bit.msi'
-  - ps: .\OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-64bit.msi /quiet /norestart
+  - ps: Start-FileDownload "%SDK_URL_PREFIX%%SDK_URL_SUFFIX%"
+  - ps: .\OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-%SDK_URL_SUFFIX% /quiet /norestart
+
 
 # TODO set up cache for dependencies
 
