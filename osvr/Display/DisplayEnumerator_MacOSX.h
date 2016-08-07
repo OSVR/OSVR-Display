@@ -77,13 +77,13 @@ DesktopOrientation getDesktopOrientation(const Display& display)
     const auto rotation = display.rotation;
     const auto is_landscape = display.size.height < display.size.width;
 
-    if (osvr::display::Rotation::Zero == rotation) {
+    if (Rotation::Zero == rotation) {
         return (is_landscape ? DesktopOrientation::Landscape : DesktopOrientation::Portrait);
-    } else if (osvr::display::Rotation::Ninety == rotation) {
+    } else if (Rotation::Ninety == rotation) {
         return (is_landscape ? DesktopOrientation::Landscape : DesktopOrientation::PortraitFlipped);
-    } else if (osvr::display::Rotation::OneEighty == rotation) {
+    } else if (Rotation::OneEighty == rotation) {
         return (is_landscape ? DesktopOrientation::LandscapeFlipped : DesktopOrientation::PortraitFlipped);
-    } else if (osvr::display::Rotation::TwoSeventy == rotation) {
+    } else if (Rotation::TwoSeventy == rotation) {
         return (is_landscape ? DesktopOrientation::LandscapeFlipped : DesktopOrientation::Portrait);
     } else {
         std::cerr << "Invalid rotation value: " << static_cast<int>(rotation) << ".";

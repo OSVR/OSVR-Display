@@ -77,34 +77,15 @@ DesktopOrientation getDesktopOrientation(const Display& display)
     // to apply the rotation to get the desktop orientation.
     const auto rotation = display.rotation;
     const auto is_hardware_landscape = display.size.height < display.size.width;
-    if (is_hardware_landscape) {
-        // Landscape resolution
-        if (osvr::display::Rotation::Zero == rotation) {
-            return DesktopOrientation::Landscape;
-        } else if (osvr::display::Rotation::Ninety == rotation) {
-            return DesktopOrientation::Portrait;
-        } else if (osvr::display::Rotation::OneEighty == rotation) {
-            return DesktopOrientation::LandscapeFlipped;
-        } else if (osvr::display::Rotation::TwoSeventy == rotation) {
-            return DesktopOrientation::PortraitFlipped;
-        } else {
-            std::cerr << "Invalid rotation value: " << static_cast<int>(rotation) << "." << std::endl;
-            return DesktopOrientation::Landscape;
-        }
-    } else {
-        // Portrait resolution
-        if (osvr::display::Rotation::Zero == rotation) {
-            return DesktopOrientation::Portrait;
-        } else if (osvr::display::Rotation::Ninety == rotation) {
-            return DesktopOrientation::Landscape;
-        } else if (osvr::display::Rotation::OneEighty == rotation) {
-            return DesktopOrientation::PortraitFlipped;
-        } else if (osvr::display::Rotation::TwoSeventy == rotation) {
-            return DesktopOrientation::LandscapeFlipped;
-        } else {
-            std::cerr << "Invalid rotation value: " << static_cast<int>(rotation) << "." << std::endl;
-            return DesktopOrientation::Portrait;
-        }
+
+    if (Rotation::Zero == rotation) {
+        return (is_hardware_landscape ? DesktopOrientation::Landscape : DesktopOrientation::Portrait);
+    } else if (Rotation::Ninety == rotation) {
+        return (is_hardware_landscape ? DesktopOrientation::PortraitFlipped : DesktopOrientation::Landscape);
+    } else if (Rotation::OneEighty == rotation) {
+        return (is_hardware_landscape ? DesktopOrientation::LandscapeFlipped : DesktopOrientation::PortraitFlipped);
+    } else if (Rotation::TwoSeventy == rotation) {
+        return (is_hardware_landscape ? DesktopOrientation::Portrait : DesktopOrientation::LandscapeFlipped);
     }
 }
 
