@@ -48,7 +48,7 @@
 namespace osvr {
 namespace display {
 
-OSVR_DISPLAY_EXPORT inline std::vector<Display> getDisplays()
+OSVR_DISPLAY_EXPORT std::vector<Display> getDisplays()
 {
     std::vector<Display> displays;
 

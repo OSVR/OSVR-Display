@@ -5,8 +5,6 @@
 # Find path to osvr/Util/PlatformConfiguration.h
 get_target_property(osvrUtil_INCLUDE_DIRS
 	osvr::osvrUtil INTERFACE_INCLUDE_DIRECTORIES)
-message(STATUS "osvrUtil_INCLUDE_DIR = ${osvrUtil_INCLUDE_DIRS}")
-
 
 # Link against platform-specific libraries
 if(APPLE)
@@ -20,6 +18,7 @@ if(APPLE)
 		${IOKIT_LIBRARY})
 endif()
 
+# Source files for both dynamic and static library
 set(_osvrDisplay_src
 	Display.h
 	Display.cpp
@@ -39,25 +38,35 @@ set(_osvrDisplay_src
 	"${CMAKE_CURRENT_BINARY_DIR}/Export.h"
 )
 
-add_library(osvrDisplay SHARED ${_osvrDisplay_src})
-target_link_libraries(osvrDisplay PRIVATE ${_osvrDisplay_deps})
-target_include_directories(osvrDisplay PUBLIC ${osvrUtil_INCLUDE_DIRS})
+# Dynamic library
+add_library(osvrDisplay
+	SHARED ${_osvrDisplay_src})
+target_link_libraries(osvrDisplay
+	PRIVATE ${_osvrDisplay_deps})
+target_include_directories(osvrDisplay
+	PUBLIC ${osvrUtil_INCLUDE_DIRS})
 
-add_library(osvrDisplay_static STATIC ${_osvrDisplay_src})
-target_link_libraries(osvrDisplay_static PRIVATE ${_osvrDisplay_deps})
-target_include_directories(osvrDisplay_static PUBLIC ${osvrUtil_INCLUDE_DIRS})
+# Static library
+add_library(osvrDisplay_static
+	STATIC ${_osvrDisplay_src})
+target_link_libraries(osvrDisplay_static
+	PRIVATE ${_osvrDisplay_deps})
+target_include_directories(osvrDisplay_static
+	PUBLIC ${osvrUtil_INCLUDE_DIRS})
 
-if(UNIX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-	set_target_properties(osvrDisplay PROPERTIES COMPILE_FLAGS "-fPIC")
-endif()
+#if(UNIX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+#	set_target_properties(osvrDisplay
+#		PROPERTIES COMPILE_FLAGS "-fPIC")
+#endif()
 
-#set_property(TARGET ${osvrDisplay_obj} PROPERTY POSITION_INDEPENDENT_CODE 1)
+set_property(TARGET osvrDisplay
+	PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 # Generate export header
 include(GenerateExportHeader)
 generate_export_header(osvrDisplay
 	BASE_NAME OSVR_DISPLAY
 	EXPORT_FILE_NAME Export.h)
-set_target_properties(osvrDisplay_static
-	PROPERTIES
-	COMPILE_FLAGS -DOSVR_DISPLAY_STATIC_DEFINE)
+target_compile_definitions(osvrDisplay_static
+	PUBLIC OSVR_DISPLAY_STATIC_DEFINE)
+

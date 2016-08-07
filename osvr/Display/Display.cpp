@@ -129,7 +129,7 @@ bool Display::operator!=(const Display& other) const
     return !(*this == other);
 }
 
-std::string to_string(const Rotation rotation)
+OSVR_DISPLAY_EXPORT std::string to_string(const Rotation rotation)
 {
     switch (rotation) {
     case osvr::display::Rotation::Zero:
@@ -145,7 +145,7 @@ std::string to_string(const Rotation rotation)
     }
 }
 
-std::string to_string(const DesktopOrientation orientation)
+OSVR_DISPLAY_EXPORT std::string to_string(const DesktopOrientation orientation)
 {
     switch (orientation) {
     case osvr::display::DesktopOrientation::Landscape:

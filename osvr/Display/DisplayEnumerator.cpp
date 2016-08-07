@@ -41,20 +41,5 @@
 #include "DisplayEnumerator_MacOSX.h"
 #else
 #error "getDisplays() not yet implemented for this platform!"
-namespace osvr {
-namespace display {
-
-std::vector<Display> getDisplays()
-{
-    return {};
-}
-
-DesktopOrientation getDesktopOrientation(const Display&)
-{
-    return DesktopOrientation::Landscape;
-}
-
-} // namespace display
-} // namespace osvr
 #endif
 
