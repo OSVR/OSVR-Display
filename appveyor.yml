@@ -24,7 +24,7 @@ init:
 
 
 install:
-  - ps: Start-FileDownload "%SDK_URL_PREFIX%%SDK_URL_SUFFIX%"
+  - ps: Start-FileDownload "${env:SDK_URL_PREFIX}"+"${env:SDK_URL_SUFFIX}"
   - ps: .\OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-%SDK_URL_SUFFIX% /quiet /norestart
 
 
