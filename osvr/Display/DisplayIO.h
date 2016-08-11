@@ -50,6 +50,12 @@ inline std::ostream& operator<<(std::ostream& ostr, const DesktopOrientation ori
     return ostr;
 }
 
+inline std::ostream& operator<<(std::ostream& ostr, const ScanOutOrigin origin)
+{
+    ostr << to_string(origin);
+    return ostr;
+}
+
 } // end namespace display
 } // end namespace osvr
 

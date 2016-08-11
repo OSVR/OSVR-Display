@@ -109,7 +109,7 @@ DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation)
     return static_cast<DesktopOrientation>((static_cast<int>(orientation) - static_cast<int>(rotation) + 4) % 4);
 }
 
-OSVR_DISPLAY_EXPORT DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation)
+DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation)
 {
     int shift = 0;
     if (ScanOutOrigin::UpperLeft == origin) {
@@ -135,6 +135,11 @@ OSVR_DISPLAY_EXPORT DesktopOrientation operator+(ScanOutOrigin origin, Rotation 
     const auto orientation = static_cast<DesktopOrientation>((static_cast<int>(DesktopOrientation::Landscape) + shift) % 4);
 
     return orientation;
+}
+
+DesktopOrientation operator+(Rotation rotation, ScanOutOrigin origin)
+{
+    return origin + rotation;
 }
 
 bool Display::operator==(const Display& other) const
@@ -186,6 +191,22 @@ OSVR_DISPLAY_EXPORT std::string to_string(const DesktopOrientation orientation)
         return "Portrait (flipped)";
     default:
         return "Unknown orientation: " + std::to_string(static_cast<int>(orientation));
+    }
+}
+
+OSVR_DISPLAY_EXPORT std::string to_string(const ScanOutOrigin origin)
+{
+    switch (origin) {
+    case ScanOutOrigin::UpperLeft:
+        return "Upper-left";
+    case ScanOutOrigin::UpperRight:
+        return "Upper-right";
+    case ScanOutOrigin::LowerRight:
+        return "Lower-right";
+    case ScanOutOrigin::LowerLeft:
+        return "Lower-left";
+    default:
+        return "Unknown scan-out origin: " + std::to_string(static_cast<int>(origin));
     }
 }
 
