@@ -77,6 +77,13 @@ enum class DesktopOrientation {
     PortraitFlipped
 };
 
+enum class ScanOutOrigin {
+    LowerLeft,
+    UpperLeft,
+    LowerRight,
+    UpperRight
+};
+
 /** \name Operators to apply rotations to desktop orientations and calculate
  * the rotational differences between two orientations.
  */
@@ -99,6 +106,11 @@ OSVR_DISPLAY_EXPORT DesktopOrientation operator+(Rotation rotation, DesktopOrien
 OSVR_DISPLAY_EXPORT DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation);
 //@}
 
+/**
+ * Calculate the DesktopOrientation after a rotation has been applied to a
+ * ScanOutOrigin.
+ */
+OSVR_DISPLAY_EXPORT DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation);
 
 struct Display {
     DisplayAdapter adapter;

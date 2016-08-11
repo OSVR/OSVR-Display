@@ -35,6 +35,11 @@
 
 using R = ::osvr::display::Rotation;
 using O = ::osvr::display::DesktopOrientation;
+using SO = ::osvr::display::ScanOutOrigin;
+
+constexpr auto Rotations = { R::Zero, R::Ninety, R::OneEighty, R::TwoSeventy };
+constexpr auto Orientations = { O::Landscape, O::Portrait, O::LandscapeFlipped, O::PortraitFlipped };
+constexpr auto ScanOutOrigins = { SO::UpperLeft, SO::UpperRight, SO::LowerRight, SO::LowerLeft };
 
 TEST(DifferenceBetweenOrientations, Identity)
 {
@@ -154,6 +159,38 @@ TEST(SubtractRotationFromOrientation, TwoSeventy)
     EXPECT_EQ(O::PortraitFlipped, O::LandscapeFlipped - R::TwoSeventy);
     EXPECT_EQ(O::LandscapeFlipped, O::Portrait - R::TwoSeventy);
     EXPECT_EQ(O::Landscape, O::PortraitFlipped - R::TwoSeventy);
+}
+
+TEST(AddScanOutOriginAndRotation, UpperLeft)
+{
+    EXPECT_EQ(O::Landscape, SO::UpperLeft + R::Zero);
+    EXPECT_EQ(O::Portrait, SO::UpperLeft + R::Ninety);
+    EXPECT_EQ(O::LandscapeFlipped, SO::UpperLeft + R::OneEighty);
+    EXPECT_EQ(O::PortraitFlipped, SO::UpperLeft + R::TwoSeventy);
+}
+
+TEST(AddScanOutOriginAndRotation, UpperRight)
+{
+    EXPECT_EQ(O::Portrait, SO::UpperRight + R::Zero);
+    EXPECT_EQ(O::LandscapeFlipped, SO::UpperRight + R::Ninety);
+    EXPECT_EQ(O::PortraitFlipped, SO::UpperRight + R::OneEighty);
+    EXPECT_EQ(O::Landscape, SO::UpperRight + R::TwoSeventy);
+}
+
+TEST(AddScanOutOriginAndRotation, LowerRight)
+{
+    EXPECT_EQ(O::LandscapeFlipped, SO::LowerRight + R::Zero);
+    EXPECT_EQ(O::PortraitFlipped, SO::LowerRight + R::Ninety);
+    EXPECT_EQ(O::Landscape, SO::LowerRight + R::OneEighty);
+    EXPECT_EQ(O::Portrait, SO::LowerRight + R::TwoSeventy);
+}
+
+TEST(AddScanOutOriginAndRotation, LowerLeft)
+{
+    EXPECT_EQ(O::PortraitFlipped, SO::LowerLeft + R::Zero);
+    EXPECT_EQ(O::Landscape, SO::LowerLeft + R::Ninety);
+    EXPECT_EQ(O::Portrait, SO::LowerLeft + R::OneEighty);
+    EXPECT_EQ(O::LandscapeFlipped, SO::LowerLeft + R::TwoSeventy);
 }
 
 int main(int argc, char* argv[])

@@ -109,6 +109,34 @@ DesktopOrientation operator-(DesktopOrientation orientation, Rotation rotation)
     return static_cast<DesktopOrientation>((static_cast<int>(orientation) - static_cast<int>(rotation) + 4) % 4);
 }
 
+OSVR_DISPLAY_EXPORT DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation)
+{
+    int shift = 0;
+    if (ScanOutOrigin::UpperLeft == origin) {
+        shift = 0;
+    } else if (ScanOutOrigin::UpperRight == origin) {
+        shift = 1;
+    } else if (ScanOutOrigin::LowerRight == origin) {
+        shift = 2;
+    } else if (ScanOutOrigin::LowerLeft == origin) {
+        shift = 3;
+    }
+
+    if (Rotation::Zero == rotation) {
+        shift += 0;
+    } else if (Rotation::Ninety == rotation) {
+        shift += 1;
+    } else if (Rotation::OneEighty == rotation) {
+        shift += 2;
+    } else if (Rotation::TwoSeventy == rotation) {
+        shift += 3;
+    }
+
+    const auto orientation = static_cast<DesktopOrientation>((static_cast<int>(DesktopOrientation::Landscape) + shift) % 4);
+
+    return orientation;
+}
+
 bool Display::operator==(const Display& other) const
 {
     if (adapter != other.adapter) return false;
