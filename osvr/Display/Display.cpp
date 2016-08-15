@@ -114,11 +114,11 @@ DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation)
     int shift = 0;
     if (ScanOutOrigin::UpperLeft == origin) {
         shift = 0;
-    } else if (ScanOutOrigin::UpperRight == origin) {
+    } else if (ScanOutOrigin::LowerLeft == origin) {
         shift = 1;
     } else if (ScanOutOrigin::LowerRight == origin) {
         shift = 2;
-    } else if (ScanOutOrigin::LowerLeft == origin) {
+    } else if (ScanOutOrigin::UpperRight == origin) {
         shift = 3;
     }
 
@@ -140,6 +140,40 @@ DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation)
 DesktopOrientation operator+(Rotation rotation, ScanOutOrigin origin)
 {
     return origin + rotation;
+}
+
+DesktopOrientation operator-(ScanOutOrigin origin, Rotation rotation)
+{
+    // FIXME
+    int shift = 0;
+    if (ScanOutOrigin::UpperLeft == origin) {
+        shift = 0;
+    } else if (ScanOutOrigin::LowerLeft == origin) {
+        shift = 1;
+    } else if (ScanOutOrigin::LowerRight == origin) {
+        shift = 2;
+    } else if (ScanOutOrigin::UpperRight == origin) {
+        shift = 3;
+    }
+
+    if (Rotation::Zero == rotation) {
+        shift += 0;
+    } else if (Rotation::Ninety == rotation) {
+        shift += 1;
+    } else if (Rotation::OneEighty == rotation) {
+        shift += 2;
+    } else if (Rotation::TwoSeventy == rotation) {
+        shift += 3;
+    }
+
+    const auto orientation = static_cast<DesktopOrientation>((static_cast<int>(DesktopOrientation::Landscape) + shift) % 4);
+
+    return orientation;
+}
+
+Rotation operator-(const Rotation rotation)
+{
+    return static_cast<Rotation>((4 - static_cast<int>(rotation)) % 4);
 }
 
 bool Display::operator==(const Display& other) const

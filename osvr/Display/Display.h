@@ -72,14 +72,14 @@ enum class Rotation {
 
 enum class DesktopOrientation {
     Landscape,
-    Portrait,
+    PortraitFlipped,
     LandscapeFlipped,
-    PortraitFlipped
+    Portrait
 };
 
 enum class ScanOutOrigin {
-    LowerLeft,
     UpperLeft,
+    LowerLeft,
     LowerRight,
     UpperRight
 };
@@ -92,6 +92,12 @@ enum class ScanOutOrigin {
  * Calculate the rotation needed to from lhs to rhs.
  */
 OSVR_DISPLAY_EXPORT Rotation operator-(const DesktopOrientation lhs, const DesktopOrientation rhs);
+
+/**
+ * Reverse the rotation (switch from clockwise to counter-clockwise or vice
+ * versa).
+ */
+OSVR_DISPLAY_EXPORT Rotation operator-(const Rotation rotation);
 
 /**
  * Calculate the new DesktopOrientation after a Rotation has been applied to it.
@@ -108,10 +114,12 @@ OSVR_DISPLAY_EXPORT DesktopOrientation operator-(DesktopOrientation orientation,
 
 /**
  * Calculate the DesktopOrientation after a rotation has been applied to a
- * ScanOutOrigin.
+ * ScanOutOrigin. Positive rotations apply counter-clockwise; negative
+ * rotations apply clockwise.
  */
 OSVR_DISPLAY_EXPORT DesktopOrientation operator+(ScanOutOrigin origin, Rotation rotation);
 OSVR_DISPLAY_EXPORT DesktopOrientation operator+(Rotation rotation, ScanOutOrigin origin);
+OSVR_DISPLAY_EXPORT DesktopOrientation operator-(ScanOutOrigin origin, Rotation rotation);
 
 struct Display {
     DisplayAdapter adapter;

@@ -51,10 +51,10 @@ TEST(DifferenceBetweenOrientations, Identity)
 
 TEST(DifferenceBetweenOrientations, Ninety)
 {
-    EXPECT_EQ(R::Ninety, O::Landscape - O::PortraitFlipped);
-    EXPECT_EQ(R::Ninety, O::Portrait - O::Landscape);
-    EXPECT_EQ(R::Ninety, O::LandscapeFlipped - O::Portrait);
-    EXPECT_EQ(R::Ninety, O::PortraitFlipped - O::LandscapeFlipped);
+    EXPECT_EQ(R::Ninety, O::Landscape - O::Portrait);
+    EXPECT_EQ(R::Ninety, O::PortraitFlipped - O::Landscape);
+    EXPECT_EQ(R::Ninety, O::LandscapeFlipped - O::PortraitFlipped);
+    EXPECT_EQ(R::Ninety, O::Portrait - O::LandscapeFlipped);
 }
 
 TEST(DifferenceBetweenOrientations, OneEighty)
@@ -67,10 +67,10 @@ TEST(DifferenceBetweenOrientations, OneEighty)
 
 TEST(DifferenceBetweenOrientations, TwoSeventy)
 {
-    EXPECT_EQ(R::TwoSeventy, O::PortraitFlipped - O::Landscape);
-    EXPECT_EQ(R::TwoSeventy, O::Landscape - O::Portrait);
-    EXPECT_EQ(R::TwoSeventy, O::Portrait - O::LandscapeFlipped);
-    EXPECT_EQ(R::TwoSeventy, O::LandscapeFlipped - O::PortraitFlipped);
+    EXPECT_EQ(R::TwoSeventy, O::Portrait - O::Landscape);
+    EXPECT_EQ(R::TwoSeventy, O::LandscapeFlipped - O::Portrait);
+    EXPECT_EQ(R::TwoSeventy, O::PortraitFlipped  - O::LandscapeFlipped);
+    EXPECT_EQ(R::TwoSeventy, O::Landscape - O::PortraitFlipped);
 }
 
 TEST(AddRotationToOrientation, Zero)
@@ -89,16 +89,16 @@ TEST(AddRotationToOrientation, Zero)
 
 TEST(AddRotationToOrientation, Ninety)
 {
-    EXPECT_EQ(O::Portrait, O::Landscape + R::Ninety);
-    EXPECT_EQ(O::PortraitFlipped, O::LandscapeFlipped + R::Ninety);
-    EXPECT_EQ(O::LandscapeFlipped, O::Portrait + R::Ninety);
-    EXPECT_EQ(O::Landscape, O::PortraitFlipped + R::Ninety);
+    EXPECT_EQ(O::PortraitFlipped, O::Landscape + R::Ninety);
+    EXPECT_EQ(O::Portrait, O::LandscapeFlipped + R::Ninety);
+    EXPECT_EQ(O::Landscape, O::Portrait + R::Ninety);
+    EXPECT_EQ(O::LandscapeFlipped, O::PortraitFlipped + R::Ninety);
 
     // Flip operands
-    EXPECT_EQ(O::Portrait, R::Ninety + O::Landscape);
-    EXPECT_EQ(O::PortraitFlipped, R::Ninety + O::LandscapeFlipped);
-    EXPECT_EQ(O::LandscapeFlipped, R::Ninety + O::Portrait);
-    EXPECT_EQ(O::Landscape, R::Ninety + O::PortraitFlipped);
+    EXPECT_EQ(O::PortraitFlipped, R::Ninety + O::Landscape);
+    EXPECT_EQ(O::Portrait, R::Ninety + O::LandscapeFlipped);
+    EXPECT_EQ(O::Landscape, R::Ninety + O::Portrait);
+    EXPECT_EQ(O::LandscapeFlipped, R::Ninety + O::PortraitFlipped);
 }
 
 TEST(AddRotationToOrientation, OneEighty)
@@ -117,16 +117,16 @@ TEST(AddRotationToOrientation, OneEighty)
 
 TEST(AddRotationToOrientation, TwoSeventy)
 {
-    EXPECT_EQ(O::PortraitFlipped, O::Landscape + R::TwoSeventy);
-    EXPECT_EQ(O::Portrait, O::LandscapeFlipped + R::TwoSeventy);
-    EXPECT_EQ(O::Landscape, O::Portrait + R::TwoSeventy);
-    EXPECT_EQ(O::LandscapeFlipped, O::PortraitFlipped + R::TwoSeventy);
+    EXPECT_EQ(O::Portrait, O::Landscape + R::TwoSeventy);
+    EXPECT_EQ(O::PortraitFlipped, O::LandscapeFlipped + R::TwoSeventy);
+    EXPECT_EQ(O::LandscapeFlipped, O::Portrait + R::TwoSeventy);
+    EXPECT_EQ(O::Landscape, O::PortraitFlipped + R::TwoSeventy);
 
     // Flip operands
-    EXPECT_EQ(O::PortraitFlipped, R::TwoSeventy + O::Landscape);
-    EXPECT_EQ(O::Portrait, R::TwoSeventy + O::LandscapeFlipped);
-    EXPECT_EQ(O::Landscape, R::TwoSeventy + O::Portrait);
-    EXPECT_EQ(O::LandscapeFlipped, R::TwoSeventy + O::PortraitFlipped);
+    EXPECT_EQ(O::Portrait, R::TwoSeventy + O::Landscape);
+    EXPECT_EQ(O::PortraitFlipped, R::TwoSeventy + O::LandscapeFlipped);
+    EXPECT_EQ(O::LandscapeFlipped, R::TwoSeventy + O::Portrait);
+    EXPECT_EQ(O::Landscape, R::TwoSeventy + O::PortraitFlipped);
 }
 
 TEST(SubtractRotationFromOrientation, Zero)
@@ -139,10 +139,10 @@ TEST(SubtractRotationFromOrientation, Zero)
 
 TEST(SubtractRotationFromOrientation, Ninety)
 {
-    EXPECT_EQ(O::PortraitFlipped, O::Landscape - R::Ninety);
-    EXPECT_EQ(O::Portrait, O::LandscapeFlipped - R::Ninety);
-    EXPECT_EQ(O::Landscape, O::Portrait - R::Ninety);
-    EXPECT_EQ(O::LandscapeFlipped, O::PortraitFlipped - R::Ninety);
+    EXPECT_EQ(O::Portrait, O::Landscape - R::Ninety);
+    EXPECT_EQ(O::PortraitFlipped, O::LandscapeFlipped - R::Ninety);
+    EXPECT_EQ(O::LandscapeFlipped, O::Portrait - R::Ninety);
+    EXPECT_EQ(O::Landscape, O::PortraitFlipped - R::Ninety);
 }
 
 TEST(SubtractRotationFromOrientation, OneEighty)
@@ -155,42 +155,50 @@ TEST(SubtractRotationFromOrientation, OneEighty)
 
 TEST(SubtractRotationFromOrientation, TwoSeventy)
 {
-    EXPECT_EQ(O::Portrait, O::Landscape - R::TwoSeventy);
-    EXPECT_EQ(O::PortraitFlipped, O::LandscapeFlipped - R::TwoSeventy);
-    EXPECT_EQ(O::LandscapeFlipped, O::Portrait - R::TwoSeventy);
-    EXPECT_EQ(O::Landscape, O::PortraitFlipped - R::TwoSeventy);
+    EXPECT_EQ(O::PortraitFlipped, O::Landscape - R::TwoSeventy);
+    EXPECT_EQ(O::Portrait, O::LandscapeFlipped - R::TwoSeventy);
+    EXPECT_EQ(O::Landscape, O::Portrait - R::TwoSeventy);
+    EXPECT_EQ(O::LandscapeFlipped, O::PortraitFlipped - R::TwoSeventy);
+}
+
+TEST(Rotation, NegateRotation)
+{
+    EXPECT_EQ(R::Zero, -R::Zero);
+    EXPECT_EQ(R::TwoSeventy, -R::Ninety);
+    EXPECT_EQ(R::OneEighty, -R::OneEighty);
+    EXPECT_EQ(R::Ninety, -R::TwoSeventy);
 }
 
 TEST(AddScanOutOriginAndRotation, UpperLeft)
 {
     EXPECT_EQ(O::Landscape, SO::UpperLeft + R::Zero);
-    EXPECT_EQ(O::Portrait, SO::UpperLeft + R::Ninety);
+    EXPECT_EQ(O::PortraitFlipped, SO::UpperLeft + R::Ninety);
     EXPECT_EQ(O::LandscapeFlipped, SO::UpperLeft + R::OneEighty);
-    EXPECT_EQ(O::PortraitFlipped, SO::UpperLeft + R::TwoSeventy);
+    EXPECT_EQ(O::Portrait, SO::UpperLeft + R::TwoSeventy);
 }
 
 TEST(AddScanOutOriginAndRotation, UpperRight)
 {
     EXPECT_EQ(O::Portrait, SO::UpperRight + R::Zero);
-    EXPECT_EQ(O::LandscapeFlipped, SO::UpperRight + R::Ninety);
+    EXPECT_EQ(O::Landscape, SO::UpperRight + R::Ninety);
     EXPECT_EQ(O::PortraitFlipped, SO::UpperRight + R::OneEighty);
-    EXPECT_EQ(O::Landscape, SO::UpperRight + R::TwoSeventy);
+    EXPECT_EQ(O::LandscapeFlipped, SO::UpperRight + R::TwoSeventy);
 }
 
 TEST(AddScanOutOriginAndRotation, LowerRight)
 {
     EXPECT_EQ(O::LandscapeFlipped, SO::LowerRight + R::Zero);
-    EXPECT_EQ(O::PortraitFlipped, SO::LowerRight + R::Ninety);
+    EXPECT_EQ(O::Portrait, SO::LowerRight + R::Ninety);
     EXPECT_EQ(O::Landscape, SO::LowerRight + R::OneEighty);
-    EXPECT_EQ(O::Portrait, SO::LowerRight + R::TwoSeventy);
+    EXPECT_EQ(O::PortraitFlipped, SO::LowerRight + R::TwoSeventy);
 }
 
 TEST(AddScanOutOriginAndRotation, LowerLeft)
 {
     EXPECT_EQ(O::PortraitFlipped, SO::LowerLeft + R::Zero);
-    EXPECT_EQ(O::Landscape, SO::LowerLeft + R::Ninety);
+    EXPECT_EQ(O::LandscapeFlipped, SO::LowerLeft + R::Ninety);
     EXPECT_EQ(O::Portrait, SO::LowerLeft + R::OneEighty);
-    EXPECT_EQ(O::LandscapeFlipped, SO::LowerLeft + R::TwoSeventy);
+    EXPECT_EQ(O::Landscape, SO::LowerLeft + R::TwoSeventy);
 }
 
 int main(int argc, char* argv[])
