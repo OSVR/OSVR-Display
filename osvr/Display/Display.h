@@ -140,6 +140,8 @@ OSVR_DISPLAY_EXPORT std::string to_string(const Rotation rotation);
 OSVR_DISPLAY_EXPORT std::string to_string(const DesktopOrientation orientation);
 OSVR_DISPLAY_EXPORT std::string to_string(const ScanOutOrigin origin);
 
+OSVR_DISPLAY_EXPORT std::string decodeEdidVendorId(uint32_t vid);
+
 } // end namespace display
 } // end namespace osvr
 

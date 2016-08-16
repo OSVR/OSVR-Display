@@ -244,6 +244,24 @@ OSVR_DISPLAY_EXPORT std::string to_string(const ScanOutOrigin origin)
     }
 }
 
+OSVR_DISPLAY_EXPORT std::string decodeEdidVendorId(uint32_t vid)
+{
+    // The vid is two bytes wsde. The most-significant bit is always 0. The
+    // remaining 15 bits are split into five-bit segments. Each segment
+    // represents a letter (0b00001 = A, 0b00010 = B, etc.).
+    //
+    // We'll just mask out each letter's bits and convert it to a character.
+    // Then append each character to a string to get the three-letter vendor ID.
+    // But first, we need to swap the bytes.
+    vid = ((vid & 0xff00) >> 8) | ((vid & 0x00ff) << 8);
+
+    std::string str = "   ";
+    str[2] = 'A' + ((vid >>  0) & 0x1f) - 1;
+    str[1] = 'A' + ((vid >>  5) & 0x1f) - 1;
+    str[0] = 'A' + ((vid >> 10) & 0x1f) - 1;
+    return str;
+}
+
 } // end namespace display
 } // end namespace osvr
 
