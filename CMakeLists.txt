@@ -19,8 +19,8 @@ globally_enable_extra_compiler_warnings()
 #
 # Options
 #
-option(BUILD_APPS "Build applications that use osvrDisplay." ON)
-option(BUILD_TESTS "Build test programs and unit tests." ON)
+option(BUILD_APPS "Build applications that use osvrDisplay." OFF)
+option(BUILD_TESTS "Build test programs and unit tests." OFF)
 
 #
 # Dependencies
