@@ -9,5 +9,7 @@ if(BUILD_TESTS AND NOT TARGET gmock)
 endif()
 
 # docopt.cpp
-add_subdirectory(docopt.cpp)
+if(BUILD_APPS)
+	add_subdirectory(docopt.cpp)
+endif()
 
