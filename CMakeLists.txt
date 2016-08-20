@@ -36,7 +36,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 #
 if(MSVC)
 	include(GetMSVCVersion)
-	get_msvc_major(_vs_major)
+	get_msvc_major_version(_vs_major)
 	if("${_vs_major}" GREATER "13")
 		set(HAVE_DOCOPT TRUE)
 	else()
