@@ -1,7 +1,6 @@
 
 # Google test
 if(BUILD_TESTS AND NOT TARGET gmock)
-	message(STATUS "BUILD_SHARED_LIBS = ${BUILD_SHARED_LIBS}")
 	if(WIN32)
 		set(gtest_force_shared_crt OFF)
 	endif()

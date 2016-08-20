@@ -2,9 +2,6 @@
 # Tests on Display functions
 #
 
-# Statically link unit test programs to gtest and osvrDisplay libraries
-include(MSVCStaticRuntime)
-
 function(osvr_add_test _test)
 	add_executable(test_${_test} test_${_test}.cpp)
 
