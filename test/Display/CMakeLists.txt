@@ -7,7 +7,7 @@ function(osvr_add_test _test)
 
 	target_link_libraries(test_${_test}
 		gtest
-		osvrDisplay)
+		osvrDisplay_static)
 
 	target_include_directories(test_${_test}
 		SYSTEM PRIVATE

@@ -34,12 +34,11 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 #
 # Check Visual Studio version
 #
+set(HAVE_DOCOPT TRUE)
 if(MSVC)
 	include(GetMSVCVersion)
 	get_msvc_major_version(_vs_major)
-	if("${_vs_major}" GREATER "13")
-		set(HAVE_DOCOPT TRUE)
-	else()
+	if("${_vs_major}" LESS "15")
 		set(HAVE_DOCOPT FALSE)
 	endif()
 endif()
