@@ -2,7 +2,7 @@
 # Google test
 if(BUILD_TESTS AND NOT TARGET gmock)
 	if(WIN32)
-		set(gtest_force_shared_crt ON)
+		set(gtest_force_shared_crt OFF)
 	endif()
 	set(BUILD_GTEST ON)
 	add_subdirectory(googletest)
