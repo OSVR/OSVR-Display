@@ -5,23 +5,28 @@
 # For our generated file
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-add_executable(osvr_display osvr_display.cpp)
+if(HAVE_DOCOPT)
 
-target_link_libraries(osvr_display
-	PRIVATE
-	osvrDisplay_static
-	docopt_s)
+	add_executable(osvr_display osvr_display.cpp)
 
-target_include_directories(osvr_display
-	PRIVATE
-	"${CMAKE_SOURCE_DIR}")
+	target_link_libraries(osvr_display
+		PRIVATE
+		osvrDisplay_static
+		docopt_s)
 
-set_property(TARGET osvr_display
-	PROPERTY CXX_STANDARD 11)
+	target_include_directories(osvr_display
+		PRIVATE
+		"${CMAKE_SOURCE_DIR}")
 
-target_compile_features(osvr_display
-	PRIVATE cxx_override)
+	set_property(TARGET osvr_display
+		PROPERTY CXX_STANDARD 11)
 
-install(TARGETS osvr_display
-	RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Runtime)
+	target_compile_features(osvr_display
+		PRIVATE cxx_override)
+
+	install(TARGETS osvr_display
+		RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT Runtime)
+else()
+	message(WARNING "The osvr_display app requires Visual Studio 2015 or above.")
+endif()
 
