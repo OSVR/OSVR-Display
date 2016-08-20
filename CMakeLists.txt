@@ -27,9 +27,6 @@ write_compiler_detection_header(
 include(EnableExtraCompilerWarnings)
 globally_enable_extra_compiler_warnings()
 
-# Link against the static CRT library
-include(MSVCStaticRuntime)
-
 #
 # Options
 #
