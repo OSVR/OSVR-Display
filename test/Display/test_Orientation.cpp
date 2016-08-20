@@ -37,10 +37,6 @@ using R = ::osvr::display::Rotation;
 using O = ::osvr::display::DesktopOrientation;
 using SO = ::osvr::display::ScanOutOrigin;
 
-constexpr auto Rotations = { R::Zero, R::Ninety, R::OneEighty, R::TwoSeventy };
-constexpr auto Orientations = { O::Landscape, O::Portrait, O::LandscapeFlipped, O::PortraitFlipped };
-constexpr auto ScanOutOrigins = { SO::UpperLeft, SO::UpperRight, SO::LowerRight, SO::LowerLeft };
-
 TEST(DifferenceBetweenOrientations, Identity)
 {
     EXPECT_EQ(R::Zero, O::Landscape - O::Landscape);

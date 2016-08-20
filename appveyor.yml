@@ -3,29 +3,25 @@
 #
 
 environment:
-  SDK_URL_PREFIX: "http://access.osvr.com/binary/download/builds/OSVR-Installer-Win-DEV/OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-"
   matrix:
     - GENERATOR: "Visual Studio 12 2013"
       CONFIG: Release
-      SDK_URL_SUFFIX: "32bit.msi"
+      SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-32bit.7z"
     - GENERATOR: "Visual Studio 12 2013 Win64"
       CONFIG: Release
-      SDK_URL_SUFFIX: "64bit.msi"
+      SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-64bit.7z"
     - GENERATOR: "Visual Studio 14 2015"
       CONFIG: Release
-      SDK_URL_SUFFIX: "32bit.msi"
+      SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-32bit.7z"
     - GENERATOR: "Visual Studio 14 2015 Win64"
       CONFIG: Release
-      SDK_URL_SUFFIX: "64bit.msi"
-
-# Enable RDP access
-init:
-  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+      SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-64bit.7z"
 
 
 install:
-  - ps: Start-FileDownload "${env:SDK_URL_PREFIX}"+"${env:SDK_URL_SUFFIX}"
-  - ps: .\OSVR-SDK-v0.6-1317-g80ee6b5-build198-win-%SDK_URL_SUFFIX% /quiet /norestart
+  - ps: Start-FileDownload "${env:SDK_URL}"
+  - ps: 7z x OSVR-Core-Snapshot-latest-*bit.7z
+  - ps: move OSVR-Core-Snapshot-* c:\osvr
 
 
 # TODO set up cache for dependencies
@@ -40,13 +36,16 @@ build_script:
   - git submodule update --init --recursive
   - mkdir build
   - cd build
-  - cmake .. -G "%GENERATOR%" -DCMAKE_INSTALL_PREFIX="c:\osvr" -DCMAKE_PREFIX_PATH="c:\osvr" -Dosvr_DIR="C:\Program Files\OSVR\SDK\lib\cmake\osvr" -DBUILD_HEADER_DEPENDENCY_TESTS=1  -DBUILD_CLIENT_APPS=1 -DBUILD_TESTS=1
+  - cmake .. -G "%GENERATOR%" -DCMAKE_INSTALL_PREFIX="c:\osvr" -DCMAKE_PREFIX_PATH="c:\osvr" -Dosvr_DIR="C:\osvr\lib\cmake\osvr" -DBUILD_HEADER_DEPENDENCY_TESTS=1  -DBUILD_APPS=1 -DBUILD_TESTS=1
   - cmake --build . --config "%CONFIG%" --target install
+  - ctest --build-config %CONFIG% --extra-verbose
 
-# TODO run tests and integrate with AppVeyor dashboard
+# Enable RDP access
+#init:
+#  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 # Keep an RDP connection open after the build has finished
 # until the lock file on the desktop is removed.
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
