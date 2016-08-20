@@ -13,6 +13,17 @@ include(UseBackportedModules)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+#
+# Detect available C++ language, library, and compiler features
+#
+include(WriteCompilerDetectionHeader)
+write_compiler_detection_header(
+	FILE "${CMAKE_CURRENT_SOURCE_DIR}/osvr/Display/DisplayDefines.h"
+	PREFIX OSVR_DISPLAY
+	COMPILERS GNU Clang AppleClang MSVC
+	FEATURES cxx_override cxx_noexcept cxx_constexpr
+)
+
 include(EnableExtraCompilerWarnings)
 globally_enable_extra_compiler_warnings()
 

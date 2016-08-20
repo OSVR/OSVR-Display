@@ -30,3 +30,6 @@
 # Build directory
 build
 
+# Generated files
+osvr/Display/DisplayDefines.h
+

@@ -28,6 +28,7 @@
 
 // Internal Includes
 #include <osvr/Display/Export.h>
+#include <osvr/Display/DisplayDefines.h>
 
 // Library/third-party includes
 // - none
