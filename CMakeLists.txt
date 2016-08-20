@@ -76,6 +76,7 @@ if(BUILD_APPS)
 	add_subdirectory(apps)
 endif()
 
+include(CTest)
 if(BUILD_TESTS)
 	add_subdirectory(test)
 endif()
