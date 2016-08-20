@@ -38,8 +38,7 @@ build_script:
   - cd build
   - cmake .. -G "%GENERATOR%" -DCMAKE_INSTALL_PREFIX="c:\osvr" -DCMAKE_PREFIX_PATH="c:\osvr" -Dosvr_DIR="C:\osvr\lib\cmake\osvr" -DBUILD_HEADER_DEPENDENCY_TESTS=1  -DBUILD_APPS=1 -DBUILD_TESTS=1
   - cmake --build . --config "%CONFIG%" --target install
-
-# TODO run tests and integrate with AppVeyor dashboard
+  - ctest --build-config %CONFIG% --extra-verbose
 
 # Enable RDP access
 #init:
