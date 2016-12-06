@@ -197,6 +197,22 @@ TEST(AddScanOutOriginAndRotation, LowerLeft)
     EXPECT_EQ(O::Landscape, SO::LowerLeft + R::TwoSeventy);
 }
 
+TEST(ConvertDesktopOrientationToScanOutOrigin, AllCases)
+{
+    EXPECT_EQ(SO::UpperLeft,  to_ScanOutOrigin(O::Landscape));
+    EXPECT_EQ(SO::UpperRight, to_ScanOutOrigin(O::PortraitFlipped));
+    EXPECT_EQ(SO::LowerRight, to_ScanOutOrigin(O::LandscapeFlipped));
+    EXPECT_EQ(SO::LowerLeft,  to_ScanOutOrigin(O::Portrait));
+}
+
+TEST(RotationScanOutOrigin, RotateScanOutOrigin)
+{
+    EXPECT_EQ(SO::UpperLeft,  to_ScanOutOrigin(SO::UpperLeft + R::Zero));
+    EXPECT_EQ(SO::UpperRight, to_ScanOutOrigin(SO::UpperLeft + R::Ninety));
+    EXPECT_EQ(SO::LowerRight, to_ScanOutOrigin(SO::UpperLeft + R::OneEighty));
+}
+
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

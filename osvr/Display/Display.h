@@ -122,6 +122,11 @@ OSVR_DISPLAY_EXPORT DesktopOrientation operator+(ScanOutOrigin origin, Rotation 
 OSVR_DISPLAY_EXPORT DesktopOrientation operator+(Rotation rotation, ScanOutOrigin origin);
 OSVR_DISPLAY_EXPORT DesktopOrientation operator-(ScanOutOrigin origin, Rotation rotation);
 
+/**
+ * Convert a DesktopOrientation to a ScanOutOrigin.
+ */
+ScanOutOrigin to_ScanOutOrigin(const DesktopOrientation& orientation);
+
 struct Display {
     DisplayAdapter adapter;
     std::string name;

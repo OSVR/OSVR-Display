@@ -45,6 +45,8 @@ target_link_libraries(osvrDisplay
 	PRIVATE ${_osvrDisplay_deps})
 target_include_directories(osvrDisplay
 	PUBLIC ${osvrUtil_INCLUDE_DIRS})
+set_property(TARGET osvrDisplay
+	PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 # Static library
 add_library(osvrDisplay_static
@@ -53,13 +55,7 @@ target_link_libraries(osvrDisplay_static
 	PRIVATE ${_osvrDisplay_deps})
 target_include_directories(osvrDisplay_static
 	PUBLIC ${osvrUtil_INCLUDE_DIRS})
-
-#if(UNIX AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
-#	set_target_properties(osvrDisplay
-#		PROPERTIES COMPILE_FLAGS "-fPIC")
-#endif()
-
-set_property(TARGET osvrDisplay
+set_property(TARGET osvrDisplay_static
 	PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 # Generate export header

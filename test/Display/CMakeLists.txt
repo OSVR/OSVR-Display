@@ -6,8 +6,16 @@ function(osvr_add_test _test)
 	add_executable(test_${_test} test_${_test}.cpp)
 
 	target_link_libraries(test_${_test}
-		gtest
-		osvrDisplay_static)
+		gtest)
+
+	# Use dynamic libraries on Windows
+	if(WIN32)
+		target_link_libraries(test_${_test}
+			osvrDisplay)
+	else()
+		target_link_libraries(test_${_test}
+			osvrDisplay_static)
+	endif()
 
 	target_include_directories(test_${_test}
 		SYSTEM PRIVATE

@@ -176,6 +176,22 @@ Rotation operator-(const Rotation rotation)
     return static_cast<Rotation>((4 - static_cast<int>(rotation)) % 4);
 }
 
+ScanOutOrigin to_ScanOutOrigin(const DesktopOrientation& orientation)
+{
+    switch (orientation) {
+    case DesktopOrientation::Landscape:
+        return ScanOutOrigin::UpperLeft;
+    case DesktopOrientation::Portrait:
+        return ScanOutOrigin::LowerLeft;
+    case DesktopOrientation::LandscapeFlipped:
+        return ScanOutOrigin::LowerRight;
+    case DesktopOrientation::PortraitFlipped:
+        return ScanOutOrigin::UpperRight;
+    default:
+        throw std::invalid_argument("Invalid orientation.");
+    }
+}
+
 bool Display::operator==(const Display& other) const
 {
     if (adapter != other.adapter) return false;
