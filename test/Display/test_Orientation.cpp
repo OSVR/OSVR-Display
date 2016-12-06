@@ -212,6 +212,20 @@ TEST(RotationScanOutOrigin, RotateScanOutOrigin)
     EXPECT_EQ(SO::LowerRight, to_ScanOutOrigin(SO::UpperLeft + R::OneEighty));
 }
 
+TEST(Rotation, ConvertIntegerToRotationEnumValue)
+{
+    using osvr::display::to_Rotation;
+    EXPECT_EQ(R::Zero, to_Rotation(0));
+    EXPECT_EQ(R::Ninety, to_Rotation(90));
+    EXPECT_EQ(R::Ninety, to_Rotation(-270));
+    EXPECT_EQ(R::OneEighty, to_Rotation(180));
+    EXPECT_EQ(R::OneEighty, to_Rotation(-180));
+    EXPECT_EQ(R::TwoSeventy, to_Rotation(270));
+    EXPECT_EQ(R::TwoSeventy, to_Rotation(-90));
+    EXPECT_THROW(to_Rotation(-1), std::invalid_argument);
+    EXPECT_THROW(to_Rotation(1), std::invalid_argument);
+}
+
 
 int main(int argc, char* argv[])
 {

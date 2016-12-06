@@ -192,6 +192,25 @@ ScanOutOrigin to_ScanOutOrigin(const DesktopOrientation& orientation)
     }
 }
 
+Rotation to_Rotation(int r)
+{
+    switch (r) {
+    case 0:
+        return Rotation::Zero;
+    case 90:
+    case -270:
+        return Rotation::Ninety;
+    case 180:
+    case -180:
+        return Rotation::OneEighty;
+    case 270:
+    case -90:
+        return Rotation::TwoSeventy;
+    default:
+        throw std::invalid_argument("Invalid rotation value. Only support 0, 90, 180, 270, and their negatives.");
+    }
+}
+
 bool Display::operator==(const Display& other) const
 {
     if (adapter != other.adapter) return false;
