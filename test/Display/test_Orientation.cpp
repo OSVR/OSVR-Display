@@ -38,39 +38,30 @@ using R = ::osvr::display::Rotation;
 using O = ::osvr::display::DesktopOrientation;
 using SO = ::osvr::display::ScanOutOrigin;
 
-TEST_CASE("DifferenceBetweenOrientations", "Identity")
+TEST_CASE("Difference between orientations")
 {
     CHECK(R::Zero == O::Landscape - O::Landscape);
     CHECK(R::Zero == O::LandscapeFlipped - O::LandscapeFlipped);
     CHECK(R::Zero == O::Portrait - O::Portrait);
     CHECK(R::Zero == O::PortraitFlipped - O::PortraitFlipped);
-}
 
-TEST_CASE("DifferenceBetweenOrientations", "Ninety")
-{
     CHECK(R::Ninety == O::Landscape - O::Portrait);
     CHECK(R::Ninety == O::PortraitFlipped - O::Landscape);
     CHECK(R::Ninety == O::LandscapeFlipped - O::PortraitFlipped);
     CHECK(R::Ninety == O::Portrait - O::LandscapeFlipped);
-}
 
-TEST_CASE("DifferenceBetweenOrientations", "OneEighty")
-{
     CHECK(R::OneEighty == O::Landscape - O::LandscapeFlipped);
     CHECK(R::OneEighty == O::LandscapeFlipped - O::Landscape);
     CHECK(R::OneEighty == O::Portrait - O::PortraitFlipped);
     CHECK(R::OneEighty == O::PortraitFlipped - O::Portrait);
-}
 
-TEST_CASE("DifferenceBetweenOrientations", "TwoSeventy")
-{
     CHECK(R::TwoSeventy == O::Portrait - O::Landscape);
     CHECK(R::TwoSeventy == O::LandscapeFlipped - O::Portrait);
     CHECK(R::TwoSeventy == O::PortraitFlipped  - O::LandscapeFlipped);
     CHECK(R::TwoSeventy == O::Landscape - O::PortraitFlipped);
 }
 
-TEST_CASE("AddRotationToOrientation", "Zero")
+TEST_CASE("Add rotation to orientation")
 {
     CHECK(O::Landscape == O::Landscape + R::Zero);
     CHECK(O::LandscapeFlipped == O::LandscapeFlipped + R::Zero);
@@ -82,10 +73,7 @@ TEST_CASE("AddRotationToOrientation", "Zero")
     CHECK(O::LandscapeFlipped == R::Zero + O::LandscapeFlipped);
     CHECK(O::Portrait == R::Zero + O::Portrait);
     CHECK(O::PortraitFlipped == R::Zero + O::PortraitFlipped);
-}
 
-TEST_CASE("AddRotationToOrientation", "Ninety")
-{
     CHECK(O::PortraitFlipped == O::Landscape + R::Ninety);
     CHECK(O::Portrait == O::LandscapeFlipped + R::Ninety);
     CHECK(O::Landscape == O::Portrait + R::Ninety);
@@ -96,10 +84,7 @@ TEST_CASE("AddRotationToOrientation", "Ninety")
     CHECK(O::Portrait == R::Ninety + O::LandscapeFlipped);
     CHECK(O::Landscape == R::Ninety + O::Portrait);
     CHECK(O::LandscapeFlipped == R::Ninety + O::PortraitFlipped);
-}
 
-TEST_CASE("AddRotationToOrientation", "OneEighty")
-{
     CHECK(O::LandscapeFlipped == O::Landscape + R::OneEighty);
     CHECK(O::Landscape == O::LandscapeFlipped + R::OneEighty);
     CHECK(O::PortraitFlipped == O::Portrait + R::OneEighty);
@@ -110,10 +95,7 @@ TEST_CASE("AddRotationToOrientation", "OneEighty")
     CHECK(O::Landscape == R::OneEighty + O::LandscapeFlipped);
     CHECK(O::PortraitFlipped == R::OneEighty + O::Portrait);
     CHECK(O::Portrait == R::OneEighty + O::PortraitFlipped);
-}
 
-TEST_CASE("AddRotationToOrientation", "TwoSeventy")
-{
     CHECK(O::Portrait == O::Landscape + R::TwoSeventy);
     CHECK(O::PortraitFlipped == O::LandscapeFlipped + R::TwoSeventy);
     CHECK(O::LandscapeFlipped == O::Portrait + R::TwoSeventy);
@@ -126,39 +108,30 @@ TEST_CASE("AddRotationToOrientation", "TwoSeventy")
     CHECK(O::Landscape == R::TwoSeventy + O::PortraitFlipped);
 }
 
-TEST_CASE("SubtractRotationFromOrientation", "Zero")
+TEST_CASE("Subtract rotation from orientation")
 {
     CHECK(O::Landscape == O::Landscape - R::Zero);
     CHECK(O::LandscapeFlipped == O::LandscapeFlipped - R::Zero);
     CHECK(O::Portrait == O::Portrait - R::Zero);
     CHECK(O::PortraitFlipped == O::PortraitFlipped - R::Zero);
-}
 
-TEST_CASE("SubtractRotationFromOrientation", "Ninety")
-{
     CHECK(O::Portrait == O::Landscape - R::Ninety);
     CHECK(O::PortraitFlipped == O::LandscapeFlipped - R::Ninety);
     CHECK(O::LandscapeFlipped == O::Portrait - R::Ninety);
     CHECK(O::Landscape == O::PortraitFlipped - R::Ninety);
-}
 
-TEST_CASE("SubtractRotationFromOrientation", "OneEighty")
-{
     CHECK(O::LandscapeFlipped == O::Landscape - R::OneEighty);
     CHECK(O::Landscape == O::LandscapeFlipped - R::OneEighty);
     CHECK(O::PortraitFlipped == O::Portrait - R::OneEighty);
     CHECK(O::Portrait == O::PortraitFlipped - R::OneEighty);
-}
 
-TEST_CASE("SubtractRotationFromOrientation", "TwoSeventy")
-{
     CHECK(O::PortraitFlipped == O::Landscape - R::TwoSeventy);
     CHECK(O::Portrait == O::LandscapeFlipped - R::TwoSeventy);
     CHECK(O::Landscape == O::Portrait - R::TwoSeventy);
     CHECK(O::LandscapeFlipped == O::PortraitFlipped - R::TwoSeventy);
 }
 
-TEST_CASE("Rotation", "NegateRotation")
+TEST_CASE("Negate rotation")
 {
     CHECK(R::Zero == -R::Zero);
     CHECK(R::TwoSeventy == -R::Ninety);
@@ -166,39 +139,30 @@ TEST_CASE("Rotation", "NegateRotation")
     CHECK(R::Ninety == -R::TwoSeventy);
 }
 
-TEST_CASE("AddScanOutOriginAndRotation", "UpperLeft")
+TEST_CASE("Add scan out origin and rotation")
 {
     CHECK(O::Landscape == SO::UpperLeft + R::Zero);
     CHECK(O::PortraitFlipped == SO::UpperLeft + R::Ninety);
     CHECK(O::LandscapeFlipped == SO::UpperLeft + R::OneEighty);
     CHECK(O::Portrait == SO::UpperLeft + R::TwoSeventy);
-}
 
-TEST_CASE("AddScanOutOriginAndRotation", "UpperRight")
-{
     CHECK(O::Portrait == SO::UpperRight + R::Zero);
     CHECK(O::Landscape == SO::UpperRight + R::Ninety);
     CHECK(O::PortraitFlipped == SO::UpperRight + R::OneEighty);
     CHECK(O::LandscapeFlipped == SO::UpperRight + R::TwoSeventy);
-}
 
-TEST_CASE("AddScanOutOriginAndRotation", "LowerRight")
-{
     CHECK(O::LandscapeFlipped == SO::LowerRight + R::Zero);
     CHECK(O::Portrait == SO::LowerRight + R::Ninety);
     CHECK(O::Landscape == SO::LowerRight + R::OneEighty);
     CHECK(O::PortraitFlipped == SO::LowerRight + R::TwoSeventy);
-}
 
-TEST_CASE("AddScanOutOriginAndRotation", "LowerLeft")
-{
     CHECK(O::PortraitFlipped == SO::LowerLeft + R::Zero);
     CHECK(O::LandscapeFlipped == SO::LowerLeft + R::Ninety);
     CHECK(O::Portrait == SO::LowerLeft + R::OneEighty);
     CHECK(O::Landscape == SO::LowerLeft + R::TwoSeventy);
 }
 
-TEST_CASE("ConvertDesktopOrientationToScanOutOrigin", "AllCases")
+TEST_CASE("Convert desktop orientation to scan out origin")
 {
     CHECK(SO::UpperLeft ==  to_ScanOutOrigin(O::Landscape));
     CHECK(SO::UpperRight == to_ScanOutOrigin(O::PortraitFlipped));
@@ -206,14 +170,14 @@ TEST_CASE("ConvertDesktopOrientationToScanOutOrigin", "AllCases")
     CHECK(SO::LowerLeft ==  to_ScanOutOrigin(O::Portrait));
 }
 
-TEST_CASE("RotationScanOutOrigin", "RotateScanOutOrigin")
+TEST_CASE("rotation scan out origin")
 {
     CHECK(SO::UpperLeft ==  to_ScanOutOrigin(SO::UpperLeft + R::Zero));
     CHECK(SO::UpperRight == to_ScanOutOrigin(SO::UpperLeft + R::Ninety));
     CHECK(SO::LowerRight == to_ScanOutOrigin(SO::UpperLeft + R::OneEighty));
 }
 
-TEST_CASE("Rotation", "ConvertIntegerToRotationEnumValue")
+TEST_CASE("Convert integer to rotation enum value")
 {
     using osvr::display::to_Rotation;
     CHECK(R::Zero == to_Rotation(0));

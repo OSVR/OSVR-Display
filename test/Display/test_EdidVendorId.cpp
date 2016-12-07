@@ -33,29 +33,29 @@
 // Standard includes
 // - none
 
-TEST_CASE("decodeEdidVendorId", "Examples")
+TEST_CASE("Decode example EDID vendor IDs", "[decodeEdidVendorId]")
 {
     using osvr::display::decodeEdidVendorId;
     CHECK("SVR" == decodeEdidVendorId(0xd24e));
 }
 
-TEST_CASE("encodeEdidVendorId", "Examples")
+TEST_CASE("Encode example EDID vendor IDs", "[encodeEdidVendorId]")
 {
     using osvr::display::encodeEdidVendorId;
     CHECK(0xd24e == encodeEdidVendorId("SVR"));
 }
 
-TEST_CASE("encodeEdidVendorId", "InvalidInputDigits")
+TEST_CASE("Invalid input: digits", "[encodeEdidVendorId]")
 {
     CHECK_THROWS_AS(osvr::display::encodeEdidVendorId("S00"), std::invalid_argument);
 }
 
-TEST_CASE("encodeEdidVendorId", "InvalidInputTooLong")
+TEST_CASE("Invalid input: input longer than three characters", "[encodeEdidVendorId]")
 {
     CHECK_THROWS_AS(osvr::display::encodeEdidVendorId("Too long"), std::invalid_argument);
 }
 
-TEST_CASE("encodeEdidVendorId", "LowercaseConversion")
+TEST_CASE("Convert input to uppercase", "[encodeEdidVendorId]")
 {
     CHECK(0xd24e == osvr::display::encodeEdidVendorId("svr"));
 }
