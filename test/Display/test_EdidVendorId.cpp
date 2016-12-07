@@ -38,6 +38,28 @@ TEST(decodeEdidVendorId, Examples)
     EXPECT_EQ("SVR", decodeEdidVendorId(0xd24e));
 }
 
+TEST(encodeEdidVendorId, Examples)
+{
+    using osvr::display::encodeEdidVendorId;
+    EXPECT_EQ(0xd24e, encodeEdidVendorId("SVR"));
+}
+
+TEST(encodeEdidVendorId, InvalidInputDigits)
+{
+    EXPECT_THROW(osvr::display::encodeEdidVendorId("S00"), std::invalid_argument);
+}
+
+TEST(encodeEdidVendorId, InvalidInputTooLong)
+{
+    EXPECT_THROW(osvr::display::encodeEdidVendorId("Too long"), std::invalid_argument);
+}
+
+TEST(encodeEdidVendorId, LowercaseConversion)
+{
+    EXPECT_EQ(0xd24e, osvr::display::encodeEdidVendorId("svr"));
+}
+
+
 int main(int argc, char* argv[])
 {
     ::testing::InitGoogleTest(&argc, argv);

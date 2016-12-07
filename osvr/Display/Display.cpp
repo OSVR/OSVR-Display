@@ -281,7 +281,7 @@ OSVR_DISPLAY_EXPORT std::string to_string(const ScanOutOrigin origin)
 
 OSVR_DISPLAY_EXPORT std::string decodeEdidVendorId(uint32_t vid)
 {
-    // The vid is two bytes wsde. The most-significant bit is always 0. The
+    // The vid is two bytes wide. The most-significant bit is always 0. The
     // remaining 15 bits are split into five-bit segments. Each segment
     // represents a letter (0b00001 = A, 0b00010 = B, etc.).
     //
@@ -295,6 +295,32 @@ OSVR_DISPLAY_EXPORT std::string decodeEdidVendorId(uint32_t vid)
     str[1] = 'A' + ((vid >>  5) & 0x1f) - 1;
     str[0] = 'A' + ((vid >> 10) & 0x1f) - 1;
     return str;
+}
+
+OSVR_DISPLAY_EXPORT uint32_t encodeEdidVendorId(const std::string& vid)
+{
+    // The vid is two bytes wide. The most-significant bit is always 0. The
+    // remaining 15 bits are split into five-bit segments. Each segment
+    // represents a letter (0b00001 = A, 0b00010 = B, etc.).
+    if (3 != vid.length()) {
+        throw std::invalid_argument("The EDID vendor ID may only consist of three characters.");
+    }
+
+    uint32_t val = 0x0000;
+    for (auto c : vid) {
+        c = static_cast<char>(std::toupper(c));
+        if (c < 'A' || c > 'Z') {
+            throw std::invalid_argument("Each letter of the EDID vendor ID must be an uppercase letter A..Z.");
+        }
+
+        val = val << 5;
+        val += static_cast<uint32_t>(c) - 'A' + 1;
+    }
+
+    // Swap the bytes
+    val = ((val & 0xff00) >> 8) | ((val & 0x00ff) << 8);
+
+    return val;
 }
 
 } // end namespace display
