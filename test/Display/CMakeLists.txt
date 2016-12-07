@@ -2,11 +2,15 @@
 # Tests on Display functions
 #
 
+add_library(catch INTERFACE)
+target_include_directories(catch INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
+
+
 function(osvr_add_test _test)
 	add_executable(test_${_test} test_${_test}.cpp)
 
 	target_link_libraries(test_${_test}
-		gtest)
+		catch)
 
 	# Use dynamic libraries on Windows
 	if(WIN32)
@@ -19,10 +23,9 @@ function(osvr_add_test _test)
 
 	target_include_directories(test_${_test}
 		SYSTEM PRIVATE
-		"${gtest_SOURCE_DIR}/include"
 		"${CMAKE_SOURCE_DIR}/osvr/Display")
 
-	add_test(NAME gtest-test_${_test}
+	add_test(NAME catch-test_${_test}
 		COMMAND test_${_test})
 
 	set_target_properties(test_${_test}

@@ -27,43 +27,36 @@
 #include <osvr/Display/Display.h>
 
 // Library/third-party includes
-#include <gtest/gtest.h>
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>
 
 // Standard includes
 // - none
 
-TEST(decodeEdidVendorId, Examples)
+TEST_CASE("decodeEdidVendorId", "Examples")
 {
     using osvr::display::decodeEdidVendorId;
-    EXPECT_EQ("SVR", decodeEdidVendorId(0xd24e));
+    CHECK("SVR" == decodeEdidVendorId(0xd24e));
 }
 
-TEST(encodeEdidVendorId, Examples)
+TEST_CASE("encodeEdidVendorId", "Examples")
 {
     using osvr::display::encodeEdidVendorId;
-    EXPECT_EQ(0xd24e, encodeEdidVendorId("SVR"));
+    CHECK(0xd24e == encodeEdidVendorId("SVR"));
 }
 
-TEST(encodeEdidVendorId, InvalidInputDigits)
+TEST_CASE("encodeEdidVendorId", "InvalidInputDigits")
 {
-    EXPECT_THROW(osvr::display::encodeEdidVendorId("S00"), std::invalid_argument);
+    CHECK_THROWS_AS(osvr::display::encodeEdidVendorId("S00"), std::invalid_argument);
 }
 
-TEST(encodeEdidVendorId, InvalidInputTooLong)
+TEST_CASE("encodeEdidVendorId", "InvalidInputTooLong")
 {
-    EXPECT_THROW(osvr::display::encodeEdidVendorId("Too long"), std::invalid_argument);
+    CHECK_THROWS_AS(osvr::display::encodeEdidVendorId("Too long"), std::invalid_argument);
 }
 
-TEST(encodeEdidVendorId, LowercaseConversion)
+TEST_CASE("encodeEdidVendorId", "LowercaseConversion")
 {
-    EXPECT_EQ(0xd24e, osvr::display::encodeEdidVendorId("svr"));
-}
-
-
-int main(int argc, char* argv[])
-{
-    ::testing::InitGoogleTest(&argc, argv);
-
-    return RUN_ALL_TESTS();
+    CHECK(0xd24e == osvr::display::encodeEdidVendorId("svr"));
 }
 
