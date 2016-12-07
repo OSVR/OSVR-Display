@@ -30,6 +30,7 @@
 // - none
 
 // Standard includes
+#include <cctype>       // for toupper
 #include <cmath>
 #include <cstdint>
 #include <string>
