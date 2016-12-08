@@ -32,6 +32,7 @@
 // Standard includes
 #include <cstdlib>
 #include <string>
+#include <iomanip>
 #include <iostream>
 
 void print_usage(const std::string& name)
@@ -71,7 +72,11 @@ int main(int argc, char* argv[])
         }
 
         try {
-            std::cout << std::hex << "0x" << osvr::display::encodeEdidVendorId(argv[2]) << std::endl;
+            const auto vid = osvr::display::encodeEdidVendorId(argv[2]);
+            std::cout << std::hex << std::showbase << std::setw(4) << vid << " = "
+                << std::dec << vid << " = "
+                << "\"" << argv[2] << "\""
+                << std::endl;
         } catch (const std::exception& e) {
             print_error(argv[0], e.what());
         }
@@ -81,8 +86,11 @@ int main(int argc, char* argv[])
         }
 
         try {
-            const auto vid = static_cast<uint32_t>(std::stoi(argv[2]));
-            std::cout << osvr::display::decodeEdidVendorId(vid) << std::endl;
+            const auto vid = static_cast<uint32_t>(std::stoi(argv[2], 0, 0));
+            std::cout << std::hex << std::showbase << std::setw(4) << vid << " = "
+                << std::dec << vid << " = "
+                << "\"" << osvr::display::decodeEdidVendorId(vid) << "\""
+                << std::endl;
         } catch (const std::exception& e) {
             print_error(argv[0], e.what());
         }
