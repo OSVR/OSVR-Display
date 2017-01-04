@@ -33,6 +33,7 @@
 #include <cctype>       // for toupper
 #include <cmath>
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 
 namespace osvr {
