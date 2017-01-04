@@ -2,5 +2,5 @@
 # Unit tests
 #
 
-add_subdirectory(display)
+add_subdirectory(Display)
 
