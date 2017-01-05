@@ -33,8 +33,7 @@ endif()
 add_executable(osvr_edid_vendor_id osvr_edid_vendor_id.cpp)
 target_link_libraries(osvr_edid_vendor_id
 	PRIVATE
-	osvrDisplay_static
-	docopt_s)
+	osvrDisplay_static)
 target_include_directories(osvr_edid_vendor_id
 	PRIVATE
 	"${CMAKE_SOURCE_DIR}")
