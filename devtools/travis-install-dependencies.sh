@@ -27,6 +27,10 @@ before_install_osx()
     brew tap osvr/osvr
 
     #brew uninstall json-c
+
+    # The system-installed copy of numpy conflicts with the version brew wants to install
+    pip uninstall -y numpy 
+
     brew install jsoncpp --HEAD
     brew install osvr-core --HEAD
 }
