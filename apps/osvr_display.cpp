@@ -32,6 +32,7 @@
 // Standard includes
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 
 static const auto USAGE =
 R"(osvr_display.
@@ -53,6 +54,10 @@ int list_displays()
     for (const auto& display : displays) {
         using std::cout;
         using std::endl;
+        using std::setfill;
+        using std::setw;
+        using std::hex;
+        using std::dec;
 
 #if 0
 Screen 0: minimum 1 x 1, current 1440 x 900, maximum 16384 x 16384
@@ -93,8 +98,8 @@ Virtual8 disconnected (normal left inverted right x axis y axis)
         cout << "  Orientation: " << to_string(osvr::display::getDesktopOrientation(display)) << endl;
         cout << "  Refresh rate: " << display.verticalRefreshRate << endl;
         cout << "  " << (display.attachedToDesktop ? "Extended mode" : "Direct mode") << endl;
-        cout << "  EDID vendor ID: 0x" << std::hex << display.edidVendorId << std::dec << endl;
-        cout << "  EDID product ID: 0x" << std::hex << display.edidProductId << std::dec << endl;
+        cout << "  EDID vendor ID: 0x" << setfill('0') << setw(4) << hex << display.edidVendorId << dec << " (" << osvr::display::decodeEdidVendorId(display.edidVendorId) << ")" << endl;
+        cout << "  EDID product ID: 0x" << setfill('0') << setw(4) << hex << display.edidProductId << dec << endl;
         cout << "" << endl;
     }
 
@@ -105,10 +110,10 @@ int main(int argc, char* argv[])
 {
     auto args = docopt::docopt(USAGE, { argv + 1, argv + argc }, true, "osvr_display 0.1");
 
-    for (const auto& arg : args) {
-        std::cout << arg.first << " = " << arg.second << std::endl;
-    }
-    std::cout << std::endl;
+    //for (const auto& arg : args) {
+    //    std::cout << arg.first << " = " << arg.second << std::endl;
+    //}
+    //std::cout << std::endl;
 
     if (args["list"]) {
         return list_displays();

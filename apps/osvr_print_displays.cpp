@@ -31,6 +31,8 @@
 
 // Standard includes
 #include <iostream>
+#include <iomanip>
+
 
 int main(int argc, char* argv[])
 {
@@ -39,6 +41,10 @@ int main(int argc, char* argv[])
     for (const auto& display : displays) {
         using std::cout;
         using std::endl;
+        using std::setw;
+        using std::setfill;
+        using std::hex;
+        using std::dec;
 
         cout << "Display: " << display.name << endl;
         cout << "  Adapter: " << display.adapter.description << endl;
@@ -49,8 +55,8 @@ int main(int argc, char* argv[])
         cout << "  Orientation: " << to_string(osvr::display::getDesktopOrientation(display)) << endl;
         cout << "  Refresh rate: " << display.verticalRefreshRate << endl;
         cout << "  " << (display.attachedToDesktop ? "Extended mode" : "Direct mode") << endl;
-        cout << "  EDID vendor ID: 0x" << std::hex << display.edidVendorId << std::dec << endl;
-        cout << "  EDID product ID: 0x" << std::hex << display.edidProductId << std::dec << endl;
+        cout << "  EDID vendor ID: 0x" << setfill('0') << setw(4) << hex << display.edidVendorId << dec << " (" << osvr::display::decodeEdidVendorId(display.edidVendorId) << ")" << endl;
+        cout << "  EDID product ID: 0x" << setfill('0') << setw(4) << hex << display.edidProductId << dec << endl;
         cout << "" << endl;
     }
 
