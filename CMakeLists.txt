@@ -30,8 +30,8 @@ globally_enable_extra_compiler_warnings()
 #
 # Options
 #
-option(BUILD_APPS "Build applications that use osvrDisplay." ON)
-option(BUILD_TESTS "Build test programs and unit tests." ON)
+option(OSVR_DISPLAY_BUILD_APPS "Build applications that use osvrDisplay." ON)
+option(OSVR_DISPLAY_BUILD_TESTS "Build test programs and unit tests." ON)
 
 #
 # Dependencies
@@ -69,12 +69,12 @@ include(GNUInstallDirs)
 
 add_subdirectory(osvr/Display)
 
-if(BUILD_APPS)
+if(OSVR_DISPLAY_BUILD_APPS)
 	add_subdirectory(apps)
 endif()
 
 include(CTest)
-if(BUILD_TESTS)
+if(OSVR_DISPLAY_BUILD_TESTS)
 	add_subdirectory(test)
 endif()
 
