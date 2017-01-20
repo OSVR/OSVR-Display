@@ -26,7 +26,7 @@ before_install_osx()
     brew tap homebrew/science
     brew tap osvr/osvr
 
-    brew uninstall json-c
+    #brew uninstall json-c
     brew install jsoncpp --HEAD
     brew install osvr-core --HEAD
 }
