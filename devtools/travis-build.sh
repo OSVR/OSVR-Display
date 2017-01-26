@@ -33,7 +33,8 @@ if [ "$(uname)" = "Darwin" ]; then
         -DCMAKE_BUILD_TYPE=${CONFIG} \
         -DCMAKE_PREFIX_PATH=${PREFIX} \
         -DCMAKE_OSX_ARCHITECTURES=x86_64 \
-        -DBUILD_TESTS=ON
+        -DOSVR_DISPLAY_BUILD_TESTS=ON \
+        -DOSVR_DISPLAY_BUILD_APPS=ON
 
 elif [ "$(uname)" = "Linux" ]; then
     if [ $CC = 'clang' ]; then
