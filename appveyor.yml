@@ -4,16 +4,28 @@
 
 environment:
   matrix:
-    - GENERATOR: "Visual Studio 12 2013"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 12 2013"
       CONFIG: Release
       SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-32bit.7z"
-    - GENERATOR: "Visual Studio 12 2013 Win64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 12 2013 Win64"
       CONFIG: Release
       SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-64bit.7z"
-    - GENERATOR: "Visual Studio 14 2015"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 14 2015"
       CONFIG: Release
       SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-32bit.7z"
-    - GENERATOR: "Visual Studio 14 2015 Win64"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      GENERATOR: "Visual Studio 14 2015 Win64"
+      CONFIG: Release
+      SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-64bit.7z"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: "Visual Studio 15 2017"
+      CONFIG: Release
+      SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-32bit.7z"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: "Visual Studio 15 2017 Win64"
       CONFIG: Release
       SDK_URL: "http://resource.osvr.com/public_download/OSVR-Core/OSVR-Core-Snapshot-latest-64bit.7z"
 
